@@ -19,8 +19,10 @@ export class TrabajadoresService {
 
   public listarRegistros$ = (datos: any): Observable<any> =>
     this.http.post(this.myAppUrl + this.myApiUrl + '/listarPersonasTrabajadores', datos);
+  public obtenerContratosTrabajadores$ = (datos: any): Observable<any> =>
+    this.http.post(this.myAppUrl + this.myApiUrl + '/obtenerContratosTrabajadores', datos);
   public crea_edita_Trabajadores$ = (datos: any): Observable<any> =>
-    this.http.post(this.myAppUrl + this.myApiUrl + '/crea_edita_PersonasTrabajadores', datos);
+    this.http.post(this.myAppUrl + this.myApiUrl + '/creaeditaPersTrab', datos);
   public elimina_Trabajadores$ = (datos: any): Observable<any> =>
-    this.http.put(this.myAppUrl + this.myApiUrl + '/elimina_PersonasTrabajadores', datos);
+    this.http.put(this.myAppUrl + this.myApiUrl + '/eliminaPersTrab', datos);
 }

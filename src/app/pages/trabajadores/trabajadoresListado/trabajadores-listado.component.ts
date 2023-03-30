@@ -7,13 +7,14 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ExcelService} from '@services/excel.service';
 import {MatDialog} from '@angular/material/dialog';
 import {CurrentUser} from '@/Models/auth/auth.model';
-import {LoginService} from '@services/login.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
 import { TrabajadoresService } from '@services/configuracion/trabajadores.service';
 import { PersonaModel } from '@/Models/configuracion/PersonaModel.model';
 import { Router } from '@angular/router';
 import { UtilsService } from '@services/utils/utils.service';
+import { LoginService } from '@services/login.service';
+import { ConfirmActionComponent } from '@components/crud/confirm-action/confirm-action.component';
 
 @Component({
     selector: 'app-trabajadores-listado',
@@ -124,38 +125,35 @@ export class TrabajadoresListadoComponent implements OnInit, AfterViewInit {
         );
     };
 
-    // delete(registro: any) {
-    //     let registroDatos: ProveedorModel = new ProveedorModel();
-    //     registroDatos.clean();
-    //     registroDatos.idProveedor = registro.idProveedor;
-    //     registroDatos.accion = 3;
-    //     (registroDatos.login = this.user.usuarioNombre),
-    //         this.getIP().then((response) => {
-    //             registroDatos.host = response.ip;
-    //         });
-    //     const dialogRef = this.dialog.open(ConfirmActionComponent, {
-    //         data: {
-    //             type: 'Eliminar Registro',
-    //             question: '¿Seguro de eliminar el registro?'
-    //         }
-    //     });
-    //     dialogRef.afterClosed().subscribe((result) => {
-    //         if (result == 'ok' && result != undefined) {
-    //             this.proveedoresService
-    //                 .elimina_Proveedores$({
-    //                     registroDatos
-    //                 })
-    //                 .subscribe((result) => {
-    //                     let message = result[0];
-    //                     this._snackBar.openFromComponent(SnackbarComponent, {
-    //                         duration: 3 * 1000,
-    //                         data: message['']
-    //                     });
-    //                 });
-    //             this.cargarListaDatos();
-    //         }
-    //     });
-    // }
+    delete(registro: any) {
+        let registroDatos: PersonaModel = new PersonaModel();
+        registroDatos.clean();
+        registroDatos.idPersona = registro.idPersona;
+        registroDatos.accion = 3;
+        registroDatos.login = this.user.usuarioNombre
+        const dialogRef = this.dialog.open(ConfirmActionComponent, {
+            data: {
+                type: 'Eliminar Registro',
+                question: '¿Seguro de eliminar el registro?'
+            }
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result == 'ok' && result != undefined) {
+                this.trabajadorService
+                    .elimina_Trabajadores$({
+                        registroDatos
+                    })
+                    .subscribe((result) => {
+                        let message = result[0];
+                        this._snackBar.openFromComponent(SnackbarComponent, {
+                            duration: 3 * 1000,
+                            data: message['']
+                        });
+                    });
+                this.cargarListaDatos();
+            }
+        });
+    }
 
     applyFilterGlobal(filterValue: string) {
         filterValue = filterValue.trim();

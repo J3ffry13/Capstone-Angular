@@ -20,7 +20,7 @@ import {MessagesComponent} from '@modules/main/header/messages/messages.componen
 import {NotificationsComponent} from '@modules/main/header/notifications/notifications.component';
 import {AngularFireModule} from '@angular/fire/compat'
 
-import {registerLocaleData} from '@angular/common';
+import {NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeEn from '@angular/common/locales/en';
 import {UserComponent} from '@modules/main/header/user/user.component';
 import {ForgotPasswordComponent} from '@modules/forgot-password/forgot-password.component';
@@ -40,6 +40,7 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -49,6 +50,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatCardModule} from '@angular/material/card';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {AuthInterceptorService} from '@services/auth/auth-Interceptor.service';
 import {ClientesListadoComponent} from '@pages/clientes/clientesListado/clientes-listado.component';
@@ -59,6 +61,12 @@ import {LoaderComponent} from './components/crud/loader/loader.component';
 import { environment } from 'environments/environment';
 import { TrabajadoresListadoComponent } from '@pages/trabajadores/trabajadoresListado/trabajadores-listado.component';
 import { TrabajadoresRegistroComponent } from '@pages/trabajadores/trabajadoresRegistro/trabajadores-registro.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideStorage } from '@angular/fire/storage';
+import { getStorage } from 'firebase/storage';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MY_FORMATS_DDMMYYY } from './utils/format-datepicker';
+import { TrabajadorContratoComponent } from '@pages/trabajadores/trabajadorContrato/trabajador-contrato.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'es-ES');
@@ -93,6 +101,7 @@ registerLocaleData(localeEn, 'es-ES');
         LoaderComponent,
         TrabajadoresListadoComponent,
         TrabajadoresRegistroComponent,
+        TrabajadorContratoComponent,
     ],
     imports: [
         BrowserModule,
@@ -122,14 +131,26 @@ registerLocaleData(localeEn, 'es-ES');
         MatSnackBarModule,
         MatProgressSpinnerModule,
         MatCardModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig)
+        NgOptimizedImage,
+        MatDatepickerModule,        
+        provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+        provideStorage(() => getStorage())
     ],
     providers: [
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptorService,
             multi: true
-        }
+        },
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE],
+        },
+        {
+            provide: MAT_DATE_FORMATS,
+            useValue: MY_FORMATS_DDMMYYY,
+        },
     ],
     bootstrap: [AppComponent]
 })
