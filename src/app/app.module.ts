@@ -67,6 +67,7 @@ import { getStorage } from 'firebase/storage';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MY_FORMATS_DDMMYYY } from './utils/format-datepicker';
 import { TrabajadorContratoComponent } from '@pages/trabajadores/trabajadorContrato/trabajador-contrato.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'es-ES');
@@ -105,6 +106,7 @@ registerLocaleData(localeEn, 'es-ES');
     ],
     imports: [
         BrowserModule,
+        NgxPermissionsModule.forRoot(),
         StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
         HttpClientModule,
         AppRoutingModule,
@@ -132,7 +134,7 @@ registerLocaleData(localeEn, 'es-ES');
         MatProgressSpinnerModule,
         MatCardModule,
         NgOptimizedImage,
-        MatDatepickerModule,        
+        MatDatepickerModule,
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
         provideStorage(() => getStorage())
     ],
