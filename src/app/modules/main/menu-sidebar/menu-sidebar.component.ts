@@ -30,13 +30,13 @@ export class MenuSidebarComponent implements OnInit {
 
     ngOnInit() {
         this.user = this.loginService.getTokenDecoded();
-        // this.loginService.getPermissions({
-        //     user: this.user
-        // })
-        // .subscribe((result) => {
-        //     this.listadoPermisos = result
-        //     this.menuf = this.menu.filter((x) =>  )
-        // });
+        this.loginService.getPermissions({
+            user: this.user
+        })
+        .subscribe((result) => {
+            this.listadoPermisos = result
+           this.menu.filter((x) =>  {this.listadoPermisos.includes(x.permission) ? console.log(x) : console.log(''); } )
+        });
         this.ui = this.store.select('ui');
         this.ui.subscribe((state: UiState) => {
             this.classes = `${BASE_CLASSES} ${state.sidebarSkin}`;
