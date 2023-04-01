@@ -4,14 +4,15 @@
 <div class="card mb-0 pb-0" *ngIf="!loading">
     <div class="card-header">
         <h2 class="card-title">{{getTitle()}}</h2>
+        <div  align="end">
+          <button mat-button matTooltip="Regresar" [routerLink]="['../workers']"
+              style="background-color: rgb(206, 206, 206);">Regresar</button>
+          <button mat-button [mat-dialog-close]="true" color="primary"
+              style="background-color: rgb(255, 255, 255);margin-left: 10px;" matTooltip="Guardar"
+              [disabled]="registroForm.invalid" (click)="guardarRegistro()">Guardar</button>
+      </div>
     </div>
-    <div class="card-header" align="end">
-        <button mat-button matTooltip="Regresar" [routerLink]="['../workers']"
-            style="background-color: rgb(206, 206, 206);">Regresar</button>
-        <button mat-button [mat-dialog-close]="true" color="primary"
-            style="background-color: rgb(255, 255, 255);margin-left: 10px;" matTooltip="Guardar"
-            [disabled]="registroForm.invalid" (click)="guardarRegistro()">Guardar</button>
-    </div>
+    
 
     <div class="card-body">
         <form class="row" [formGroup]="registroForm">
@@ -118,7 +119,7 @@
                         Descargar</button> -->
                       &nbsp;                      
                       &nbsp;
-                      <button mat-raised-button color="primary" matTooltip="Nuevo Proveedor" (click)="nuevo()">
+                      <button mat-raised-button color="primary" matTooltip="Nuevo Contrato" (click)="nuevo()">
                         <mat-icon>add_circle</mat-icon>
                         Nuevo</button>
                     </div>

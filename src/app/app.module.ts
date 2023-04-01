@@ -11,14 +11,13 @@ import {FooterComponent} from '@modules/main/footer/footer.component';
 import {MenuSidebarComponent} from '@modules/main/menu-sidebar/menu-sidebar.component';
 import {BlankComponent} from '@pages/blank/blank.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {ProfileComponent} from '@pages/profile/profile.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RegisterComponent} from '@modules/register/register.component';
 import {DashboardComponent} from '@pages/dashboard/dashboard.component';
 import {ToastrModule} from 'ngx-toastr';
 import {MessagesComponent} from '@modules/main/header/messages/messages.component';
 import {NotificationsComponent} from '@modules/main/header/notifications/notifications.component';
-import {AngularFireModule} from '@angular/fire/compat'
+import {AngularFireModule} from '@angular/fire/compat';
 
 import {NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeEn from '@angular/common/locales/en';
@@ -49,24 +48,33 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {MatTabsModule} from '@angular/material/tabs';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {AuthInterceptorService} from '@services/auth/auth-Interceptor.service';
-import {ClientesListadoComponent} from '@pages/clientes/clientesListado/clientes-listado.component';
-import {ClientesRegistroComponent} from '@pages/clientes/clientesRegistro/clientes-registro.component';
 import {ConfirmActionComponent} from './components/crud/confirm-action/confirm-action.component';
 import {SnackbarComponent} from './components/crud/snackbar/snackbar.component';
 import {LoaderComponent} from './components/crud/loader/loader.component';
-import { environment } from 'environments/environment';
-import { TrabajadoresListadoComponent } from '@pages/trabajadores/trabajadoresListado/trabajadores-listado.component';
-import { TrabajadoresRegistroComponent } from '@pages/trabajadores/trabajadoresRegistro/trabajadores-registro.component';
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { provideStorage } from '@angular/fire/storage';
-import { getStorage } from 'firebase/storage';
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MY_FORMATS_DDMMYYY } from './utils/format-datepicker';
-import { TrabajadorContratoComponent } from '@pages/trabajadores/trabajadorContrato/trabajador-contrato.component';
+import {environment} from 'environments/environment';
+import {TrabajadoresListadoComponent} from '@pages/trabajadores/trabajadoresListado/trabajadores-listado.component';
+import {TrabajadoresRegistroComponent} from '@pages/trabajadores/trabajadoresRegistro/trabajadores-registro.component';
+import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
+import {provideStorage} from '@angular/fire/storage';
+import {getStorage} from 'firebase/storage';
+import {
+    DateAdapter,
+    MAT_DATE_FORMATS,
+    MAT_DATE_LOCALE
+} from '@angular/material/core';
+import {MY_FORMATS_DDMMYYY} from './utils/format-datepicker';
+import {TrabajadorContratoComponent} from '@pages/trabajadores/trabajadorContrato/trabajador-contrato.component';
+import {GrupoTrabajoListadoComponent} from '@pages/gruposTrabajo/grupoTrabajoListado/gruposTrabajo-listado.component';
+import {GrupoTrabajoRegistroComponent} from '@pages/gruposTrabajo/grupoTrabajoRegistro/gruposTrabajo-registro.component';
+import { ActividadesListadoComponent } from '@pages/actividades/actividadesListado/actividades-listado.component';
+import { ActividadesRegistroComponent } from '@pages/actividades/actividadesRegistro/actividades-registro.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'es-ES');
@@ -80,7 +88,6 @@ registerLocaleData(localeEn, 'es-ES');
         FooterComponent,
         MenuSidebarComponent,
         BlankComponent,
-        ProfileComponent,
         RegisterComponent,
         DashboardComponent,
         MessagesComponent,
@@ -94,14 +101,16 @@ registerLocaleData(localeEn, 'es-ES');
         MenuItemComponent,
         ControlSidebarComponent,
         SidebarSearchComponent,
-        ClientesListadoComponent,
-        ClientesRegistroComponent,
         ConfirmActionComponent,
         SnackbarComponent,
         LoaderComponent,
         TrabajadoresListadoComponent,
         TrabajadoresRegistroComponent,
         TrabajadorContratoComponent,
+        ActividadesListadoComponent,
+        ActividadesRegistroComponent,
+        GrupoTrabajoListadoComponent,
+        GrupoTrabajoRegistroComponent
     ],
     imports: [
         BrowserModule,
@@ -125,14 +134,17 @@ registerLocaleData(localeEn, 'es-ES');
         MatButtonModule,
         MatInputModule,
         MatDialogModule,
+        MatAutocompleteModule,
         MatSelectModule,
         MatRadioModule,
         MatSlideToggleModule,
         MatSnackBarModule,
         MatProgressSpinnerModule,
         MatCardModule,
+        MatTabsModule,
         NgOptimizedImage,
-        MatDatepickerModule,        
+        MatCheckboxModule,
+        MatDatepickerModule,
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
         provideStorage(() => getStorage())
     ],
@@ -142,15 +154,16 @@ registerLocaleData(localeEn, 'es-ES');
             useClass: AuthInterceptorService,
             multi: true
         },
+        { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
         {
             provide: DateAdapter,
             useClass: MomentDateAdapter,
-            deps: [MAT_DATE_LOCALE],
+            deps: [MAT_DATE_LOCALE]
         },
         {
             provide: MAT_DATE_FORMATS,
-            useValue: MY_FORMATS_DDMMYYY,
-        },
+            useValue: MY_FORMATS_DDMMYYY
+        }
     ],
     bootstrap: [AppComponent]
 })

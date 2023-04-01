@@ -19,7 +19,10 @@ button {
     font-size: 15px; 
     font-family: Calibri; 
     // width: 60PX;
-    color: #000000; 
+    color: #ffffff; 
+}
+mat-form-field {
+	width: 100%;
 }
 
 ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {

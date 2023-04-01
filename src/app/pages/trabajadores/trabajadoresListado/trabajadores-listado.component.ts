@@ -119,12 +119,6 @@ export class TrabajadoresListadoComponent implements OnInit, AfterViewInit {
         });
     }
 
-    getIP = async () => {
-        return await fetch('https://api.ipify.org?format=json').then(
-            (response) => response.json()
-        );
-    };
-
     delete(registro: any) {
         let registroDatos: PersonaModel = new PersonaModel();
         registroDatos.clean();

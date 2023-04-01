@@ -1,5 +1,3 @@
-import { TrabajadorModel } from "./TrabajadorModel.model";
-
 export class PersonaModel {
     idPersona: number;
     tipoDocu: number;

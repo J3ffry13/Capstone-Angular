@@ -38,7 +38,7 @@ export const MENU = [
         // path: ['/masters/'],
         children: [
             {
-                name: 'Trabajores',
+                name: 'Trabajadores',
                 iconClasses: 'fas fa-user-alt',
                 path: ['/masters/workers']
             },

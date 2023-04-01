@@ -10,6 +10,9 @@ import {ForgotPasswordComponent} from '@modules/forgot-password/forgot-password.
 import {RecoverPasswordComponent} from '@modules/recover-password/recover-password.component';
 import { TrabajadoresListadoComponent } from '@pages/trabajadores/trabajadoresListado/trabajadores-listado.component';
 import { TrabajadoresRegistroComponent } from '@pages/trabajadores/trabajadoresRegistro/trabajadores-registro.component';
+import { GrupoTrabajoListadoComponent } from '@pages/gruposTrabajo/grupoTrabajoListado/gruposTrabajo-listado.component';
+import { GrupoTrabajoRegistroComponent } from '@pages/gruposTrabajo/grupoTrabajoRegistro/gruposTrabajo-registro.component';
+import { ActividadesListadoComponent } from '@pages/actividades/actividadesListado/actividades-listado.component';
 
 const routes: Routes = [
     {
@@ -27,14 +30,18 @@ const routes: Routes = [
                 path: 'masters/workers-reg',
                 component: TrabajadoresRegistroComponent
             },
-            // {
-            //     path: 'masters/productos',
-            //     component: ProductosListadoComponent
-            // },
-            // {
-            //     path: 'masters/clientes',
-            //     component: ClientesListadoComponent
-            // },
+            {
+                path: 'masters/activities',
+                component: ActividadesListadoComponent
+            },
+            {
+                path: 'masters/workgroup',
+                component: GrupoTrabajoListadoComponent
+            },
+            {
+                path: 'masters/workgroup-reg',
+                component: GrupoTrabajoRegistroComponent
+            },
             // ///////
             // {
             //     path: 'process/reception',

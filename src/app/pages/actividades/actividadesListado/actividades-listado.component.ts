@@ -5,21 +5,23 @@ import {MatSort} from '@angular/material/sort';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ExcelService} from '@services/excel.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ClientesService} from '@services/dashboard-Maestros/clientes.service';
-import {ClientesRegistroComponent} from '../clientesRegistro/clientes-registro.component';
 import {ClienteModel} from '@/Models/ClienteModel.model';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {LoginService} from '@services/login.service';
 import {ConfirmActionComponent} from '@components/crud/confirm-action/confirm-action.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
+import { ActividadesService } from '@services/configuracion/actividades.service';
+import { ActividadModel } from '@/Models/configuracion/ActividadModel.model';
+import { ActividadesRegistroComponent } from '../actividadesRegistro/actividades-registro.component';
+
 
 @Component({
-    selector: 'app-clientes-listado',
-    templateUrl: './clientes-listado.component.html',
-    styleUrls: ['./clientes-listado.component.scss']
+    selector: 'app-actividades-listado',
+    templateUrl: './actividades-listado.component.html',
+    styleUrls: ['./actividades-listado.component.scss']
 })
-export class ClientesListadoComponent implements OnInit {
+export class ActividadesListadoComponent implements OnInit {
     displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
     listadoResult: any[] = [];
@@ -33,7 +35,7 @@ export class ClientesListadoComponent implements OnInit {
 
     constructor(
         private ref: ChangeDetectorRef,
-        private clientesServices: ClientesService,
+        private actividadesService: ActividadesService,
         private loginService: LoginService,
         private excelService: ExcelService,
         public dialog: MatDialog,
@@ -43,17 +45,11 @@ export class ClientesListadoComponent implements OnInit {
 
     ngOnInit() {
         this.loading = true;
-        this.createFrom();
         this.user = this.loginService.getTokenDecoded();
         this.renderColumns();
         this.cargarListaDatos();
     }
 
-    createFrom() {
-        this.formGroupFiltros = this.formBuilder.group({
-          dni: new FormControl(''),
-        });
-      }
 
     refreshLista() {
         this.dataSource = new MatTableDataSource(this.listadoResult);
@@ -65,14 +61,12 @@ export class ClientesListadoComponent implements OnInit {
 
     cargarListaDatos() {
         this.loadingData = true;
-        this.clientesServices
-            .listarRegistros$({
-                dni: this.formGroupFiltros.value.dni == null ? '' : this.formGroupFiltros.value.dni,
+        this.actividadesService
+            .listarActividades$({
             })
             .subscribe((result) => {
                 this.listadoResult = result;
                 this.refreshLista();
-                console.log(this.loading);
                 this.loading = false;
                 this.loadingData = false;
             });
@@ -80,30 +74,22 @@ export class ClientesListadoComponent implements OnInit {
     }
 
     nuevo() {
-        const registro = new ClienteModel();
+        const registro = new ActividadModel();
         registro.clean();
         this.openDialog(registro);
     }
 
-    edit(registro: ClienteModel) {
+    edit(registro: ActividadModel) {
         this.openDialog(registro);
     }
 
-    getIP = async () => {
-        return await fetch('https://api.ipify.org?format=json').then(
-            (response) => response.json()
-        );
-    };
-
     delete(registro: any) {
-        let registroDatos: ClienteModel = new ClienteModel();
+        let registroDatos: ActividadModel = new ActividadModel();
         registroDatos.clean();
-        registroDatos.idCliente = registro.idCliente;
+        registroDatos.idActividad = registro.idActividad;
         registroDatos.accion = 3;
-        (registroDatos.login = this.user.usuarioNombre),
-            this.getIP().then((response) => {
-                registroDatos.host = response.ip;
-            });
+        (registroDatos.login = this.user.usuarioNombre);
+
         const dialogRef = this.dialog.open(ConfirmActionComponent, {
             data: {
                 type: 'Eliminar Registro',
@@ -112,8 +98,8 @@ export class ClientesListadoComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe((result) => {
             if (result == 'ok' && result != undefined) {
-                this.clientesServices
-                    .elimina_Clientes$({
+                this.actividadesService
+                    .elimina_Actividades$({
                         registroDatos
                     })
                     .subscribe((result) => {
@@ -128,14 +114,14 @@ export class ClientesListadoComponent implements OnInit {
         });
     }
 
-    openDialog(registro: ClienteModel) {
-        const dialogRef = this.dialog.open(ClientesRegistroComponent, {
+    openDialog(registro: ActividadModel) {
+        const dialogRef = this.dialog.open(ActividadesRegistroComponent, {
             data: {registro}
         });
 
         dialogRef.afterClosed().subscribe((result) => {
             console.log(result);
-            if (result !== undefined) {
+            if (result) {
                 this.cargarListaDatos();
             }
         });
@@ -156,8 +142,8 @@ export class ClientesListadoComponent implements OnInit {
                 width: 'mat-column mat-column-60 center-cell'
             },
             {
-                name: 'dni',
-                label: 'IDENTIFICACION',
+                name: 'codigo',
+                label: 'CODIGO',
                 esFlag: false,
                 width: 'mat-column mat-column-120 center-cell'
             },
@@ -166,25 +152,7 @@ export class ClientesListadoComponent implements OnInit {
                 label: 'NOMBRE',
                 esFlag: false,
                 width: 'mat-column mat-column-120 center-cell'
-            },
-            {
-                name: 'apellido',
-                label: 'APELLIDO',
-                esFlag: false,
-                width: 'mat-column mat-column-120 center-cell'
-            },
-            {
-                name: 'telefono',
-                label: 'TELEFONO',
-                esFlag: false,
-                width: 'mat-column'
-            },
-            {
-                name: 'direccion',
-                label: 'DIRECCION',
-                esFlag: false,
-                width: 'mat-column mat-column-120 center-cell'
-            },
+            },  
             {
                 name: 'estado',
                 label: 'ESTADO',
@@ -203,38 +171,5 @@ export class ClientesListadoComponent implements OnInit {
         );
     }
 
-    // asyncAction() {
-    //   const promise = new Promise((resolve, reject) => {
-    //     try {
-    //       setTimeout(() => {
-    //         const columnsSize = [
-    //           15, 30, 30, 30, 15, 40, 10, 15, 25, 25, 20, 20, 20, 15,
-    //         ];
-
-    //         this.excelService.exportToExcelGenerico(
-    //           'REPORTES DE PROVEEDORES',
-    //           'DATA',
-    //           this.customColumns.filter((f) => f.name !== 'actions'),
-    //           this.listadoResult,
-    //           columnsSize,
-    //           'RptProveedores'
-    //         );
-    //       }, 0);
-    //     } catch (e) {
-    //       reject(e);
-    //     }
-    //   });
-    //   return promise;
-    // }
-
-    exportarDatos() {
-        // this.asyncAction()
-        //   .then(() => {
-        //     this.ref.markForCheck();
-        //   })
-        //   .catch((e: any) => {
-        //     console.log(e);
-        //     this.ref.markForCheck();
-        //   });
-    }
+    exportarDatos() {   }
 }

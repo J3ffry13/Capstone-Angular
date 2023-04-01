@@ -5,25 +5,26 @@ import {MatSort} from '@angular/material/sort';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ExcelService} from '@services/excel.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ClienteModel} from '@/Models/ClienteModel.model';
 import {CurrentUser} from '@/Models/auth/auth.model';
-import {LoginService} from '@services/login.service';
-import {ConfirmActionComponent} from '@components/crud/confirm-action/confirm-action.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
-import { ProveedoresRegistroComponent } from '../proveedoresRegistro/proveedores-registro.component';
-import { ProveedoresService } from '@services/dashboard-Maestros/proveedores.service';
-import { ProveedorModel } from '@/Models/ProveedorModel.model';
+import { Router } from '@angular/router';
+import { LoginService } from '@services/login.service';
+import { ConfirmActionComponent } from '@components/crud/confirm-action/confirm-action.component';
+import { GrupoTrabajoService } from '@services/configuracion/grupoTrabajo.service';
+import { GrupoTrabajoModel } from '@/Models/configuracion/GrupoTrabajo.modedel';
 
 @Component({
-    selector: 'app-proveedores-listado',
-    templateUrl: './proveedores-listado.component.html',
-    styleUrls: ['./proveedores-listado.component.scss']
+    selector: 'app-grupostrabajo-listado',
+    templateUrl: './gruposTrabajo-listado.component.html',
+    styleUrls: ['./gruposTrabajo-listado.component.scss']
 })
-export class ProveedoresListadoComponent implements OnInit {
+export class GrupoTrabajoListadoComponent implements OnInit {
     displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
     listadoResult: any[] = [];
+    listTipoDoccbo: any[] = [];
+    listTipoContcbo: any[] = [];
     customColumns: any[] = [];
     loading = false;
     loadingData = false;
@@ -34,8 +35,9 @@ export class ProveedoresListadoComponent implements OnInit {
 
     constructor(
         private ref: ChangeDetectorRef,
-        private proveedoresService: ProveedoresService,
+        private grupoTrabajoService: GrupoTrabajoService,
         private loginService: LoginService,
+        private router: Router,
         private excelService: ExcelService,
         public dialog: MatDialog,
         private _snackBar: MatSnackBar,
@@ -45,10 +47,16 @@ export class ProveedoresListadoComponent implements OnInit {
     ngOnInit() {
         this.loading = true;
         this.user = this.loginService.getTokenDecoded();
+        this.createFrom();
         this.renderColumns();
         this.cargarListaDatos();
     }
 
+    createFrom() {
+        this.formGroupFiltros = this.formBuilder.group({
+          dni: new FormControl(''),
+        });
+      }
 
     refreshLista() {
         this.dataSource = new MatTableDataSource(this.listadoResult);
@@ -60,9 +68,8 @@ export class ProveedoresListadoComponent implements OnInit {
 
     cargarListaDatos() {
         this.loadingData = true;
-        this.proveedoresService
-            .listarRegistros$({
-            })
+        this.grupoTrabajoService
+            .listarRegistros$({})
             .subscribe((result) => {
                 this.listadoResult = result;
                 this.refreshLista();
@@ -73,30 +80,33 @@ export class ProveedoresListadoComponent implements OnInit {
     }
 
     nuevo() {
-        const registro = new ProveedorModel();
+        const registro = new GrupoTrabajoModel();
         registro.clean();
-        this.openDialog(registro);
+        this.router.navigate(['masters/workgroup-reg'], {
+            state: {
+                param: registro,
+                listTipoContcbo: this.listTipoContcbo,
+                listTipoDoccbo: this.listTipoDoccbo,
+            }
+        });
     }
 
-    edit(registro: ProveedorModel) {
-        this.openDialog(registro);
+    edit(registro: GrupoTrabajoModel) {
+        this.router.navigate(['masters/workers-reg'], {
+            state: {
+                param: registro,
+                listTipoContcbo: this.listTipoContcbo,
+                listTipoDoccbo: this.listTipoDoccbo,
+            }
+        });
     }
-
-    getIP = async () => {
-        return await fetch('https://api.ipify.org?format=json').then(
-            (response) => response.json()
-        );
-    };
 
     delete(registro: any) {
-        let registroDatos: ProveedorModel = new ProveedorModel();
+        let registroDatos: GrupoTrabajoModel = new GrupoTrabajoModel();
         registroDatos.clean();
-        registroDatos.idProveedor = registro.idProveedor;
+        registroDatos.idGrupo = registro.idGrupo;
         registroDatos.accion = 3;
-        (registroDatos.login = this.user.usuarioNombre),
-            this.getIP().then((response) => {
-                registroDatos.host = response.ip;
-            });
+        registroDatos.login = this.user.usuarioNombre
         const dialogRef = this.dialog.open(ConfirmActionComponent, {
             data: {
                 type: 'Eliminar Registro',
@@ -105,8 +115,8 @@ export class ProveedoresListadoComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe((result) => {
             if (result == 'ok' && result != undefined) {
-                this.proveedoresService
-                    .elimina_Proveedores$({
+                this.grupoTrabajoService
+                    .elimina_GruposTrab$({
                         registroDatos
                     })
                     .subscribe((result) => {
@@ -116,19 +126,6 @@ export class ProveedoresListadoComponent implements OnInit {
                             data: message['']
                         });
                     });
-                this.cargarListaDatos();
-            }
-        });
-    }
-
-    openDialog(registro: ProveedorModel) {
-        const dialogRef = this.dialog.open(ProveedoresRegistroComponent, {
-            data: {registro}
-        });
-
-        dialogRef.afterClosed().subscribe((result) => {
-            console.log(result);
-            if (result !== undefined) {
                 this.cargarListaDatos();
             }
         });
@@ -149,41 +146,29 @@ export class ProveedoresListadoComponent implements OnInit {
                 width: 'mat-column mat-column-60 center-cell'
             },
             {
-                name: 'ruc',
-                label: 'RUC',
-                esFlag: false,
-                width: 'mat-column mat-column-120 center-cell'
-            },
-            {
-                name: 'nombre',
-                label: 'NOMBRE',
-                esFlag: false,
-                width: 'mat-column mat-column-120 center-cell'
-            },  
-            {
-                name: 'correo',
-                label: 'CORREO',
+                name: 'codigo',
+                label: 'CODIGO',
                 esFlag: false,
                 width: 'mat-column'
-            },         
+            },    
             {
-                name: 'telefono',
-                label: 'TELEFONO',
+                name: 'descripcion',
+                label: 'DESCRIPCIÓN',
                 esFlag: false,
                 width: 'mat-column'
-            },
+            },   
             {
-                name: 'direccion',
-                label: 'DIRECCION',
+                name: 'supervisor',
+                label: 'SUPERVISOR',
                 esFlag: false,
                 width: 'mat-column mat-column-120 center-cell'
             },
             {
-                name: 'estado',
-                label: 'ESTADO',
-                esFlag: true,
-                width: 'mat-column mat-column-100 center-cell'
-            },
+                name: 'cantidad',
+                label: '# PERSONAS"',
+                esFlag: false,
+                width: 'mat-column mat-column-120 center-cell'
+            },             
             {
                 name: 'actions',
                 label: '...',
@@ -195,6 +180,19 @@ export class ProveedoresListadoComponent implements OnInit {
             (column: any) => column.name
         );
     }
+
+    getItemByHtml(nume: number){
+        if (nume == 1) return 'ACTIVO'
+        else if (nume == 2) return 'CESADO'
+        else return 'SIN CONTRATO'
+    } 
+
+     getItemByScss(nume: number){
+        if (nume == 1) return 'background-color: green'
+        else if (nume == 2) return 'background-color: red'
+        else return 'background-color: yellow'
+    }
+    
 
     exportarDatos() {   }
 }

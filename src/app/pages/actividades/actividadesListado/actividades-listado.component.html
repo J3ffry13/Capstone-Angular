@@ -6,12 +6,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0 text-dark">Recepcion de Productos</h1>
+          <h1 class="m-0 text-dark">Actividades</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-            <li class="breadcrumb-item active">Recepcion-Productos</li>
+            <li class="breadcrumb-item active">Actividades</li>
           </ol>
         </div>
       </div>
@@ -37,24 +37,8 @@
         <div class="row mb-4">
           <div class="col-12">
             <div class="row">
-              <div class="col-2">
-                <div class="row inputs">
-                  <form [formGroup]="formGroupFiltros" >
-                    <mat-form-field  appearance="fill">
-                      <mat-label>Proveedores</mat-label>
-                      <mat-select formControlName="proveedores" multiple placeholder="Proveedores">
-                        <!-- <mat-select-trigger>
-                          
-                        </mat-select-trigger> -->
-                        <mat-option *ngFor="let prov of listProveedoresCbo" [value]="prov.codigo">{{prov.nombre}}</mat-option>
-                      </mat-select>
-                      <!-- <input matInput type="number" placeholder="Identificación" formControlName="dni" maxlength="15" />-->
-                      <mat-hint align="start"><strong>Filtro</strong> Proveedores</mat-hint> 
-                    </mat-form-field>
-                  </form>
-                </div>
-              </div>
-              <div class="col-2 ml-4">
+
+              <div class="col-3" align="start">
                 <div class="row inputs">
                   <mat-form-field appearance="fill">
                     <input matInput placeholder="Fitrado Rápido" (keyup)="applyFilterGlobal($event.target['value'])"
@@ -63,9 +47,9 @@
                   </mat-form-field>
                 </div>
               </div>
-              <div class="col-1">
+              <div class="col-3">
               </div>
-              <div class="col-4 mb-auto mt-auto ml-auto">
+              <div class="col-6 mb-auto mt-auto ml-auto" align="end">
                 <!-- [hidden]="listadoResult.length === 0"  -->
                 <button mat-raised-button style="background-color: rgb(28, 157, 56); color: #fff;" matTooltip="Exportar"
                   (click)="exportarDatos()" [disabled]="listadoResult.length === 0">
@@ -76,7 +60,7 @@
                   <mat-icon>search</mat-icon>
                   Buscar</button>
                 &nbsp;
-                <button mat-raised-button color="primary" matTooltip="Nuevo Registro" (click)="nuevo()">
+                <button mat-raised-button color="primary" matTooltip="Nueva Actividad" (click)="nuevo()">
                   <mat-icon>add_circle</mat-icon>
                   Nuevo</button>
               </div>
