@@ -14,11 +14,15 @@ export class LoginService {
 
     constructor(private http: HttpClient) {
         this.myAppUrl = environment.endpoint;
-        this.myApiUrl = '/api/login';
+        this.myApiUrl = '/api/';
     }
 
     login(usuario: any): Observable<any> {
-        return this.http.post(this.myAppUrl + this.myApiUrl, usuario);
+        return this.http.post(this.myAppUrl + this.myApiUrl + 'login', usuario);
+    }
+
+    getPermissions(usuario: any): Observable<any> {
+      return this.http.post(this.myAppUrl + this.myApiUrl + 'obtenerPermisos', usuario);
     }
 
     getTokenDecoded(): any {
