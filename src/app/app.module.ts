@@ -59,8 +59,8 @@ import {ConfirmActionComponent} from './components/crud/confirm-action/confirm-a
 import {SnackbarComponent} from './components/crud/snackbar/snackbar.component';
 import {LoaderComponent} from './components/crud/loader/loader.component';
 import {environment} from 'environments/environment';
-import {TrabajadoresListadoComponent} from '@pages/trabajadores/trabajadoresListado/trabajadores-listado.component';
-import {TrabajadoresRegistroComponent} from '@pages/trabajadores/trabajadoresRegistro/trabajadores-registro.component';
+import {TrabajadoresListadoComponent} from '@pages/Configuracion/trabajadores/trabajadoresListado/trabajadores-listado.component';
+import {TrabajadoresRegistroComponent} from '@pages/Configuracion/trabajadores/trabajadoresRegistro/trabajadores-registro.component';
 import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
 import {provideStorage} from '@angular/fire/storage';
 import {getStorage} from 'firebase/storage';
@@ -70,11 +70,15 @@ import {
     MAT_DATE_LOCALE
 } from '@angular/material/core';
 import {MY_FORMATS_DDMMYYY} from './utils/format-datepicker';
-import {TrabajadorContratoComponent} from '@pages/trabajadores/trabajadorContrato/trabajador-contrato.component';
-import {GrupoTrabajoListadoComponent} from '@pages/gruposTrabajo/grupoTrabajoListado/gruposTrabajo-listado.component';
-import {GrupoTrabajoRegistroComponent} from '@pages/gruposTrabajo/grupoTrabajoRegistro/gruposTrabajo-registro.component';
-import { ActividadesListadoComponent } from '@pages/actividades/actividadesListado/actividades-listado.component';
-import { ActividadesRegistroComponent } from '@pages/actividades/actividadesRegistro/actividades-registro.component';
+import {TrabajadorContratoComponent} from '@pages/Configuracion/trabajadores/trabajadorContrato/trabajador-contrato.component';
+import {GrupoTrabajoListadoComponent} from '@pages/Configuracion/gruposTrabajo/grupoTrabajoListado/gruposTrabajo-listado.component';
+import {GrupoTrabajoRegistroComponent} from '@pages/Configuracion/gruposTrabajo/grupoTrabajoRegistro/gruposTrabajo-registro.component';
+import { ActividadesListadoComponent } from '@pages/Configuracion/actividades/actividadesListado/actividades-listado.component';
+import { ActividadesRegistroComponent } from '@pages/Configuracion/actividades/actividadesRegistro/actividades-registro.component';
+import { MatSortModule } from '@angular/material/sort';
+import { RegistroAsistenciaRegistroComponent } from '@pages/Control-Asistencias/registroAsistencia/registroAsistencia-registro.component';
+import { AsignacionLaboresListadoComponent } from '@pages/Procesos/asignacionLabores/asignacionLabores-listado/asignacionLabores-listado.component';
+import { AsignacionLaboresRegistroComponent } from '@pages/Procesos/asignacionLabores/asignacionLabores-registro/asignacionLabores-registro.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'es-ES');
@@ -110,7 +114,10 @@ registerLocaleData(localeEn, 'es-ES');
         ActividadesListadoComponent,
         ActividadesRegistroComponent,
         GrupoTrabajoListadoComponent,
-        GrupoTrabajoRegistroComponent
+        GrupoTrabajoRegistroComponent,
+        AsignacionLaboresListadoComponent,
+        AsignacionLaboresRegistroComponent,
+        RegistroAsistenciaRegistroComponent,
     ],
     imports: [
         BrowserModule,
@@ -140,6 +147,7 @@ registerLocaleData(localeEn, 'es-ES');
         MatSlideToggleModule,
         MatSnackBarModule,
         MatProgressSpinnerModule,
+        MatSortModule,
         MatCardModule,
         MatTabsModule,
         NgOptimizedImage,

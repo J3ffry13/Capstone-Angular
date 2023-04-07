@@ -23,8 +23,6 @@ export class GrupoTrabajoListadoComponent implements OnInit {
     displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
     listadoResult: any[] = [];
-    listTipoDoccbo: any[] = [];
-    listTipoContcbo: any[] = [];
     customColumns: any[] = [];
     loading = false;
     loadingData = false;
@@ -85,18 +83,14 @@ export class GrupoTrabajoListadoComponent implements OnInit {
         this.router.navigate(['masters/workgroup-reg'], {
             state: {
                 param: registro,
-                listTipoContcbo: this.listTipoContcbo,
-                listTipoDoccbo: this.listTipoDoccbo,
             }
         });
     }
 
     edit(registro: GrupoTrabajoModel) {
-        this.router.navigate(['masters/workers-reg'], {
+        this.router.navigate(['masters/workgroup-reg'], {
             state: {
                 param: registro,
-                listTipoContcbo: this.listTipoContcbo,
-                listTipoDoccbo: this.listTipoDoccbo,
             }
         });
     }
@@ -165,7 +159,7 @@ export class GrupoTrabajoListadoComponent implements OnInit {
             },
             {
                 name: 'cantidad',
-                label: '# PERSONAS"',
+                label: '# PERSONAS',
                 esFlag: false,
                 width: 'mat-column mat-column-120 center-cell'
             },             

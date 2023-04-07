@@ -41,10 +41,10 @@ export class GrupoTrabajoRegistroComponent implements OnInit, AfterViewInit {
     displayedColumnsSel = ['select', 'dni', 'nombreC', 'actions'];
     selectionDisponible = new SelectionModel<any>(true, []);
     selectionAsignado = new SelectionModel<any>(true, []);
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
-    @ViewChild(MatPaginator) paginatorSelec: MatPaginator;
-    @ViewChild(MatSort) sortSelect: MatSort;
+    @ViewChild('matPaginator', { static: true }) paginator: MatPaginator;
+    @ViewChild('sort', { static: true }) sort: MatSort;
+    @ViewChild('matpaginatorSelec', { static: true }) paginatorSelec: MatPaginator;
+    @ViewChild('sortSelect', { static: true }) sortSelect: MatSort;
     pageSizeOptions: any[] = [30, 40, 50];
 
     validations = {
@@ -106,8 +106,8 @@ export class GrupoTrabajoRegistroComponent implements OnInit, AfterViewInit {
                             nombre.nombreC !== undefined ? nombre.nombreC : ''
                         );
                     }
-                    this.listadoResult = result[0];
-                    this.listadoResultSelect = result[1];
+                    this.listadoResult = result[1];
+                    this.listadoResultSelect = result[2];
                     this.refreshDataSourceDisponible();
                     this.refreshDataSourceAsignado();
                 },
@@ -129,10 +129,6 @@ export class GrupoTrabajoRegistroComponent implements OnInit, AfterViewInit {
             descripcion: new FormControl(
                 this.registro.descripcion + '',
                 Validators.required
-            ),
-            idSupervisor: new FormControl(
-                this.registro.idSupervisor + '',
-                Validators.min(1)
             ),
             supervisorNombre: new FormControl(
                 this.registro.supervisorNombre + '',
@@ -362,20 +358,20 @@ export class GrupoTrabajoRegistroComponent implements OnInit, AfterViewInit {
         registroDatos.idGrupo = this.registro.idGrupo;
         registroDatos.accion = this.registro.idGrupo > 0 ? 2 : 1;
         registroDatos.login = this.user.usuarioNombre;
-        registroDatos.trabajadores = JSON.stringify(this.listadoResult);
-        console.log(registroDatos);
-        // this.grupoTrabajoService
-        //     .crea_edita_GruposTrab$({
-        //         registroDatos
-        //     })
-        //     .subscribe((result) => {
-        //         let message = result[0];
-        //         this._snackBar.openFromComponent(SnackbarComponent, {
-        //             duration: 3 * 1000,
-        //             data: message['']
-        //         });
-        //         this.router.navigate(['/masters/workgroup']);
-        //     });
+        registroDatos.idSupervisor = this.listSupervisores.find((x) => x.nombreC = registroDatos.supervisorNombre).idPersona
+        registroDatos.trabajadores = JSON.stringify(this.listadoResultSelect);
+        this.grupoTrabajoService
+            .crea_edita_GruposTrab$({
+                registroDatos
+            })
+            .subscribe((result) => {
+                let message = result[0];
+                this._snackBar.openFromComponent(SnackbarComponent, {
+                    duration: 3 * 1000,
+                    data: message['']
+                });
+                this.router.navigate(['/masters/workgroup']);
+            });
     }
 
     getError(controlName: string): string {

@@ -1,0 +1,48 @@
+<div class="card mb-0 pb-0" style="width: 50px;" *ngIf="loading">
+    <div class="text-center">
+        <div class="spinner-border text-primary" role="status">
+        </div>
+    </div>
+</div>
+<div class="card mb-0 pb-0" *ngIf="!loading">
+    <div class="card-header">
+        <h2 class="card-title">{{getTitle()}}</h2>
+    </div>
+
+    <div class="card-body">
+        <form class="row" [formGroup]="registroForm">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-4 inputs ">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Codigo</mat-label>
+                            <input matInput placeholder="codigo" formControlName="codigo" minlength="3" maxlength="8"
+                                type="text" />
+                            <mat-error><strong>{{ getError('codigo') }}</strong></mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4 inputs">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput placeholder="nombre" formControlName="nombre" maxlength="100" />
+                            <mat-error><strong>{{ getError('nombre') }}</strong></mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4 inputs">
+                        <mat-slide-toggle class=" mt-auto ml-4" color="primary"
+                            formControlName="estado">Activo</mat-slide-toggle>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="card-footer m-0" align="end">
+        <button mat-button (click)="onNoClick()" matTooltip="Cancelar"
+            style="background-color: rgb(206, 206, 206);">Cancel</button>
+        <button mat-button [mat-dialog-close]="true" color="primary"
+            style="background-color: rgb(255, 255, 255);margin-left: 10px;" matTooltip="Guardar"
+            [disabled]="registroForm.invalid" (click)="guardarRegistro()">Guardar</button>
+    </div>
+
+</div>

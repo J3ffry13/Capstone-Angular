@@ -81,7 +81,7 @@
               <table mat-table [dataSource]="dataSource" matSort>
                 <ng-container *ngFor="let column of customColumns; let colIndex = index"
                   matColumnDef="{{ column.name }}">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }} </th>
+                  <th mat-header-cell *matHeaderCellDef>{{ column.label }} </th>
                   <ng-container *matCellDef="let element">
                     <ng-container *ngIf="column.name !== 'actions'; else colActions">
                       <ng-container *ngIf="!column.esFlag">

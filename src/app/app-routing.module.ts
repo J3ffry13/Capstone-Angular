@@ -1,18 +1,21 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {MainComponent} from '@modules/main/main.component';
-import {BlankComponent} from '@pages/blank/blank.component';
 import {LoginComponent} from '@modules/login/login.component';
 import {RegisterComponent} from '@modules/register/register.component';
 import {DashboardComponent} from '@pages/dashboard/dashboard.component';
 import {AuthGuard} from '@guards/auth.guard';
 import {ForgotPasswordComponent} from '@modules/forgot-password/forgot-password.component';
 import {RecoverPasswordComponent} from '@modules/recover-password/recover-password.component';
-import { TrabajadoresListadoComponent } from '@pages/trabajadores/trabajadoresListado/trabajadores-listado.component';
-import { TrabajadoresRegistroComponent } from '@pages/trabajadores/trabajadoresRegistro/trabajadores-registro.component';
-import { GrupoTrabajoListadoComponent } from '@pages/gruposTrabajo/grupoTrabajoListado/gruposTrabajo-listado.component';
-import { GrupoTrabajoRegistroComponent } from '@pages/gruposTrabajo/grupoTrabajoRegistro/gruposTrabajo-registro.component';
-import { ActividadesListadoComponent } from '@pages/actividades/actividadesListado/actividades-listado.component';
+import { TrabajadoresListadoComponent } from '@pages/Configuracion/trabajadores/trabajadoresListado/trabajadores-listado.component';
+import { TrabajadoresRegistroComponent } from '@pages/Configuracion/trabajadores/trabajadoresRegistro/trabajadores-registro.component';
+import { GrupoTrabajoListadoComponent } from '@pages/Configuracion/gruposTrabajo/grupoTrabajoListado/gruposTrabajo-listado.component';
+import { GrupoTrabajoRegistroComponent } from '@pages/Configuracion/gruposTrabajo/grupoTrabajoRegistro/gruposTrabajo-registro.component';
+import { ActividadesListadoComponent } from '@pages/Configuracion/actividades/actividadesListado/actividades-listado.component';
+
+
+import { RegistroAsistenciaRegistroComponent } from '@pages/Control-Asistencias/registroAsistencia/registroAsistencia-registro.component';
+import { AsignacionLaboresListadoComponent } from '@pages/Procesos/asignacionLabores/asignacionLabores-listado/asignacionLabores-listado.component';
 
 const routes: Routes = [
     {
@@ -42,15 +45,14 @@ const routes: Routes = [
                 path: 'masters/workgroup-reg',
                 component: GrupoTrabajoRegistroComponent
             },
-            // ///////
-            // {
-            //     path: 'process/reception',
-            //     component: RecepcionProductosListadoComponent
-            // },
-            // {
-            //     path: 'process/reception/register',
-            //     component: RecepcionProductosRegistroComponent
-            // },
+            {
+                path: 'process/assigment',
+                component: AsignacionLaboresListadoComponent
+            },
+            {
+                path: 'assists/registerpersonal',
+                component: RegistroAsistenciaRegistroComponent
+            },
             // {
             //     path: 'sub-menu-2',
             //     component: BlankComponent

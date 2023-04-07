@@ -6,12 +6,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0 text-dark">Actividades</h1>
+          <h1 class="m-0 text-dark">Asignacion de Labores</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Inicio</a></li>
-            <li class="breadcrumb-item active">Actividades</li>
+            <li class="breadcrumb-item active">Asignacion de Labores</li>
           </ol>
         </div>
       </div>
@@ -60,7 +60,7 @@
                   <mat-icon>search</mat-icon>
                   Buscar</button>
                 &nbsp;
-                <button mat-raised-button color="primary" matTooltip="Nueva Actividad" (click)="nuevo()">
+                <button mat-raised-button color="primary" matTooltip="Nueva Asignación" (click)="nuevo()">
                   <mat-icon>add_circle</mat-icon>
                   Nuevo</button>
               </div>
@@ -83,7 +83,7 @@
               <table mat-table [dataSource]="dataSource" matSort>
                 <ng-container *ngFor="let column of customColumns; let colIndex = index"
                   matColumnDef="{{ column.name }}">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.label }} </th>
+                  <th mat-header-cell *matHeaderCellDef>{{ column.label }} </th>
                   <ng-container *matCellDef="let element">
                     <ng-container *ngIf="column.name !== 'actions'; else colActions">
                       <ng-container *ngIf="!column.esFlag">

@@ -82,7 +82,7 @@ export const MENU = [
         iconClasses: 'fas fa-calendar-alt',        
         children: [
             {
-                name: 'Registro Personal',
+                name: 'Registro Asistencias',
                 iconClasses: 'fas fa-user-clock',
                 path: ['/assists/registerpersonal']
             },

@@ -13,15 +13,15 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
 import { ActividadesService } from '@services/configuracion/actividades.service';
 import { ActividadModel } from '@/Models/configuracion/ActividadModel.model';
-import { ActividadesRegistroComponent } from '../actividadesRegistro/actividades-registro.component';
+import { AsignacionLaboresRegistroComponent } from '../asignacionLabores-registro/asignacionLabores-registro.component';
 
 
 @Component({
-    selector: 'app-actividades-listado',
-    templateUrl: './actividades-listado.component.html',
-    styleUrls: ['./actividades-listado.component.scss']
+    selector: 'app-asignacionlabores-listado',
+    templateUrl: './asignacionLabores-listado.component.html',
+    styleUrls: ['./asignacionLabores-listado.component.scss']
 })
-export class ActividadesListadoComponent implements OnInit {
+export class AsignacionLaboresListadoComponent implements OnInit {
     displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
     listadoResult: any[] = [];
@@ -115,7 +115,7 @@ export class ActividadesListadoComponent implements OnInit {
     }
 
     openDialog(registro: ActividadModel) {
-        const dialogRef = this.dialog.open(ActividadesRegistroComponent, {
+        const dialogRef = this.dialog.open(AsignacionLaboresRegistroComponent, {
             data: {registro}
         });
 
