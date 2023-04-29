@@ -13,24 +13,80 @@
         <form class="row" [formGroup]="registroForm">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-4 inputs ">
+                    <div class="col-6 inputs ">
                         <mat-form-field appearance="fill">
-                            <mat-label>Codigo</mat-label>
-                            <input matInput placeholder="codigo" formControlName="codigo" minlength="3" maxlength="8"
-                                type="text" />
-                            <mat-error><strong>{{ getError('codigo') }}</strong></mat-error>
+                            <mat-select placeholder="Actividad" formControlName="idActividad">
+                                <mat-option value="-1">--SELECCIONE--</mat-option>
+                                <mat-option *ngFor="let item of listActividadesCbo" value="{{ item.codigo }}">{{
+                                    item.descripcion }}</mat-option>
+                            </mat-select>
+                            <mat-error><strong>{{ getError('idActividad') }}</strong></mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 inputs">
+                        <mat-form-field appearance="fill">
+                            <mat-select placeholder="Grupo Trabajo" formControlName="idGrupo">
+                                <mat-option value="-1">--SELECCIONE--</mat-option>
+                                <mat-option *ngFor="let item of listGrupoTrabCbo" value="{{ item.codigo }}">{{
+                                    item.descripcion }}</mat-option>
+                            </mat-select>
+                            <mat-error><strong>{{ getError('idGrupo') }}</strong></mat-error>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 inputs">
+                        <mat-form-field appearance="fill">
+                            <mat-label>DESCRIPCIÓN</mat-label>
+                            <input matInput placeholder="Descripción" formControlName="descripcion" />
+                            <mat-error><strong>{{ getError('descripcion') }}</strong></mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-12 inputs">
+                        <mat-form-field appearance="fill">
+                            <mat-label>DIRECCIÓN</mat-label>
+                            <input matInput placeholder="Dirección" formControlName="direccion" />
+                            <mat-error><strong>{{ getError('direccion') }}</strong></mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row mb-2">
+                    <div class="col-4 inputs">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput [matDatepicker]="picker" placeholder="Fecha" formControlName="fecha" />
+                            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngFor="let val of validations.fecha"><strong>{{ val.message
+                                    }}</strong></mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-2 inputs">
+                        <mat-form-field>
+                            <mat-label>Hora Inicio</mat-label>
+                            <input matInput type="time" placeholder="Hora Inicio" formControlName="start" />
+                            <mat-error>La Hora Inicio es requerida </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-2 inputs">
+                        <mat-form-field>
+                            <mat-label>Hora Fin</mat-label>
+                            <input matInput type="time" placeholder="Hora Fin" formControlName="end" />
+                            <mat-error>La Hora Fin es requerida </mat-error>
                         </mat-form-field>
                     </div>
                     <div class="col-4 inputs">
                         <mat-form-field appearance="fill">
-                            <mat-label>Nombre</mat-label>
-                            <input matInput placeholder="nombre" formControlName="nombre" maxlength="100" />
-                            <mat-error><strong>{{ getError('nombre') }}</strong></mat-error>
+                            <mat-label>COLOR</mat-label>
+                            <input matInput type="color" placeholder="Color" formControlName="backgroundColor" />
+                            <mat-error><strong>{{ getError('backgroundColor') }}</strong></mat-error>
                         </mat-form-field>
-                    </div>
-                    <div class="col-4 inputs">
-                        <mat-slide-toggle class=" mt-auto ml-4" color="primary"
-                            formControlName="estado">Activo</mat-slide-toggle>
                     </div>
                 </div>
 
@@ -40,7 +96,7 @@
     <div class="card-footer m-0" align="end">
         <button mat-button (click)="onNoClick()" matTooltip="Cancelar"
             style="background-color: rgb(206, 206, 206);">Cancel</button>
-        <button mat-button [mat-dialog-close]="true" color="primary"
+        <button mat-button color="primary"
             style="background-color: rgb(255, 255, 255);margin-left: 10px;" matTooltip="Guardar"
             [disabled]="registroForm.invalid" (click)="guardarRegistro()">Guardar</button>
     </div>

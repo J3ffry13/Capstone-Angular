@@ -5,7 +5,6 @@ import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {LoginService} from '@services/login.service';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {ProveedoresService} from '@services/dashboard-Maestros/proveedores.service';
 import {TrabajadorModel} from '@/Models/configuracion/TrabajadorModel.model';
 import {Storage, ref, uploadBytes} from '@angular/fire/storage';
 import moment from 'moment';
@@ -106,7 +105,7 @@ export class TrabajadorContratoComponent implements OnInit {
             this.registroForm.getRawValue().f_fin === null ||
             this.registroForm.getRawValue().f_fin === undefined
         ) {
-            registroDatos.f_fin = '';
+            registroDatos.f_fin = null;
         } else {
             registroDatos.f_fin = moment(
                 this.registroForm.getRawValue().f_fin
@@ -126,7 +125,7 @@ export class TrabajadorContratoComponent implements OnInit {
         registroDatos.status = true;
 
         this.register = registroDatos;
-        return registroDatos;
+        return this.register;
     }
 
     SubeArhivo() {

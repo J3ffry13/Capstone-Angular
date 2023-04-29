@@ -22,6 +22,23 @@ button {
     color: #000000; 
 }
 
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+  }
+  
+  .mat-f {
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+table {
+    overflow: auto;
+    overflow-x: auto;
+  }
+
 ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
     background-color: #fff;
 }

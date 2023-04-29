@@ -12,10 +12,11 @@ import { TrabajadoresRegistroComponent } from '@pages/Configuracion/trabajadores
 import { GrupoTrabajoListadoComponent } from '@pages/Configuracion/gruposTrabajo/grupoTrabajoListado/gruposTrabajo-listado.component';
 import { GrupoTrabajoRegistroComponent } from '@pages/Configuracion/gruposTrabajo/grupoTrabajoRegistro/gruposTrabajo-registro.component';
 import { ActividadesListadoComponent } from '@pages/Configuracion/actividades/actividadesListado/actividades-listado.component';
-
-
 import { RegistroAsistenciaRegistroComponent } from '@pages/Control-Asistencias/registroAsistencia/registroAsistencia-registro.component';
 import { AsignacionLaboresListadoComponent } from '@pages/Procesos/asignacionLabores/asignacionLabores-listado/asignacionLabores-listado.component';
+import { IngresosListadoComponent } from '@pages/Finanzas/Ingresos/ingresos-listado/ingresos-listado.component';
+import { EgresosListadoComponent } from '@pages/Finanzas/egresos/egresos-listado/egresos-listado.component';
+import { DashboardReportComponent } from '@pages/Reportes/dashboard-report/dashboard-report.component';
 
 const routes: Routes = [
     {
@@ -53,10 +54,18 @@ const routes: Routes = [
                 path: 'assists/registerpersonal',
                 component: RegistroAsistenciaRegistroComponent
             },
-            // {
-            //     path: 'sub-menu-2',
-            //     component: BlankComponent
-            // },
+            {
+                path: 'finance/income',
+                component: IngresosListadoComponent,
+            },
+            {
+                path: 'finance/expenses',
+                component: EgresosListadoComponent,
+            },
+            {
+                path: 'reports/dashboard',
+                component: DashboardReportComponent,
+            },
             {
                 path: '',
                 component: DashboardComponent

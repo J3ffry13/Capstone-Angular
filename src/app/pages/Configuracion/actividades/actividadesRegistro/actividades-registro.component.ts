@@ -88,6 +88,7 @@ export class ActividadesRegistroComponent implements OnInit {
                     duration: 3 * 1000,
                     data: message['']
                 });
+                this.dialogRef.close({ result: true , close: false });
             });
     }
 

@@ -220,9 +220,52 @@ export class TrabajadoresListadoComponent implements OnInit, AfterViewInit {
      getItemByScss(nume: number){
         if (nume == 1) return 'background-color: green'
         else if (nume == 2) return 'background-color: red'
-        else return 'background-color: yellow'
+        else return 'background-color: #b0a700'
     }
     
+    exportarDatos() {
+        this.asyncAction(this.listadoResult)
+            .then(() => {
+                this.ref.markForCheck();
+            })
+            .catch((e: any) => {
+                this.ref.markForCheck();
+            });
+    }
 
-    exportarDatos() {   }
+    asyncAction(listaDatos: any[]) {
+        let data = listaDatos;
+        data.forEach(r => {
+            r['estado'] == 1 ? r['estado'] = 'ACTIVO' :  r['estado'] == 2 ? r['estado'] = 'CESADO' : r['estado'] = 'SIN CONTRATO'
+        })        
+        const promise = new Promise((resolve, reject) => {
+            try {
+                setTimeout(() => {
+                    const columnsSize = [
+                        20, 30, 30, 40, 40, 10, 15, 10, 20, 20, 20, 15
+                    ];
+
+                    this.excelService.exportToExcelGenerico(
+                        'LISTADO DE TRABAJADORES',
+                        'DATA',
+                        this.customColumns.filter(
+                            (f) =>
+                                f.name !== 'actions' &&
+                                f.name !== 'select'
+                        ),
+                        data,
+                        columnsSize,
+                        'ListadoTrabajadores',
+                        true
+                    );
+                }, 0);
+                data.forEach(r => {
+                    r['estado'] == 'ACTIVO' ? r['estado'] = 1:  r['estado'] == 'CESADO' ? r['estado'] = 2 : r['estado'] = 3
+                })    
+            } catch (e) {
+                reject(e);
+            }
+        });
+        return promise;
+    }
 }

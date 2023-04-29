@@ -1,20 +1,20 @@
 import {Component, ViewChild, ChangeDetectorRef, OnInit} from '@angular/core';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {ExcelService} from '@services/excel.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ClienteModel} from '@/Models/ClienteModel.model';
-import {CurrentUser} from '@/Models/auth/auth.model';
-import {LoginService} from '@services/login.service';
-import {ConfirmActionComponent} from '@components/crud/confirm-action/confirm-action.component';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
-import { ActividadesService } from '@services/configuracion/actividades.service';
-import { ActividadModel } from '@/Models/configuracion/ActividadModel.model';
-import { AsignacionLaboresRegistroComponent } from '../asignacionLabores-registro/asignacionLabores-registro.component';
-
+import {AsignacionLaboresRegistroComponent} from '../asignacionLabores-registro/asignacionLabores-registro.component';
+import {
+    CalendarOptions,
+    EventApi,
+    EventClickArg
+} from '@fullcalendar/core';
+import interactionPlugin from '@fullcalendar/interaction';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import {FullCalendarComponent} from '@fullcalendar/angular';
+import {AsignacionLaboresService} from '@services/procesos/asignacionLabores.service';
+import { AsignacionLaboresModel } from '@/Models/procesos/AsignacionLaboresModel.model';
+import moment from 'moment';
+import { ExcelService } from '@services/excel.service';
+import { CalendarTemplateRef } from '@fullcalendar/angular/private-types';
 
 @Component({
     selector: 'app-asignacionlabores-listado',
@@ -22,154 +22,165 @@ import { AsignacionLaboresRegistroComponent } from '../asignacionLabores-registr
     styleUrls: ['./asignacionLabores-listado.component.scss']
 })
 export class AsignacionLaboresListadoComponent implements OnInit {
-    displayedColumns: string[] = [];
-    dataSource: MatTableDataSource<any>;
+    loadingData = true;
     listadoResult: any[] = [];
-    customColumns: any[] = [];
-    loading = false;
-    loadingData = false;
-    user: CurrentUser;
-    formGroupFiltros: FormGroup;
-    @ViewChild(MatPaginator) paginator: MatPaginator;
-    @ViewChild(MatSort) sort: MatSort;
+
+    customColumns = [
+        {
+            name: 'title',
+            label: 'TÍTULO',
+        },
+        {
+            name: 'descripcion',
+            label: 'DESCRIPCIÓN',
+        },
+        {
+            name: 'direccion',
+            label: 'DIRECCIÓN',
+        },
+        {
+            name: 'start',
+            label: 'FECHA HORA INICIO',
+        },
+        {
+            name: 'end',
+            label: 'FECHA HORA FIN',
+        }
+    ];
+
+    @ViewChild('calendar') calendarComponent: FullCalendarComponent;
+
+    calendarVisible = true;
+    calendarOptions: CalendarOptions = {
+        plugins: [interactionPlugin, dayGridPlugin, timeGridPlugin],
+        headerToolbar: {
+            left: 'prev,next today customButton',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+        },
+        locale: 'es-ES',
+        initialView: 'dayGridMonth',
+        weekends: true,
+        editable: true,
+        selectable: true,
+        selectMirror: true,
+        dayMaxEvents: true,
+        themeSystem: 'bootstrap',
+        dateClick: this.nuevo.bind(this),
+        buttonText: {
+            today: 'Hoy',
+            month: 'Mes',
+            day: 'Día',
+            week: 'Semana',
+            previous: 'Anterior',
+            custom: 'Descargar'
+        },
+        customButtons: {
+            customButton: {
+              text: 'Descargar',
+              click: () => {
+                this.exportarDatos()
+              }
+            }
+          },
+        // select: this.handleDateSelect.bind(this),
+        eventClick: this.edit.bind(this),
+    };
+    currentEvents: EventApi[] = [];
 
     constructor(
-        private ref: ChangeDetectorRef,
-        private actividadesService: ActividadesService,
-        private loginService: LoginService,
+        private changeDetector: ChangeDetectorRef,
         private excelService: ExcelService,
+        private asignacionLaboresService: AsignacionLaboresService,
+        private ref: ChangeDetectorRef,
         public dialog: MatDialog,
-        private _snackBar: MatSnackBar,
-        private formBuilder: FormBuilder,
     ) {}
 
     ngOnInit() {
-        this.loading = true;
-        this.user = this.loginService.getTokenDecoded();
-        this.renderColumns();
         this.cargarListaDatos();
     }
 
-
-    refreshLista() {
-        this.dataSource = new MatTableDataSource(this.listadoResult);
-        this.loadingData = false;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.ref.markForCheck();
-    }
-
-    cargarListaDatos() {
-        this.loadingData = true;
-        this.actividadesService
-            .listarActividades$({
-            })
-            .subscribe((result) => {
-                this.listadoResult = result;
-                this.refreshLista();
-                this.loading = false;
-                this.loadingData = false;
-            });
-        this.loadingData = false;
-    }
-
-    nuevo() {
-        const registro = new ActividadModel();
+    nuevo(res:{dateStr: string}) {
+        const registro = new AsignacionLaboresModel();
         registro.clean();
+        registro.fecha = res.dateStr;
         this.openDialog(registro);
     }
 
-    edit(registro: ActividadModel) {
+    edit(clickInfo: EventClickArg) {
+        let registro = new AsignacionLaboresModel();
+        registro.clean();
+        let x = clickInfo.event._def.extendedProps['idAsignacion'];
+        registro = this.listadoResult.find(y => y.idAsignacion == x)
+        registro.idAsignacion = x
+        registro.fecha = moment(registro.start).format('YYYY-MM-DD')
         this.openDialog(registro);
     }
 
-    delete(registro: any) {
-        let registroDatos: ActividadModel = new ActividadModel();
-        registroDatos.clean();
-        registroDatos.idActividad = registro.idActividad;
-        registroDatos.accion = 3;
-        (registroDatos.login = this.user.usuarioNombre);
-
-        const dialogRef = this.dialog.open(ConfirmActionComponent, {
-            data: {
-                type: 'Eliminar Registro',
-                question: '¿Seguro de eliminar el registro?'
-            }
-        });
+    openDialog(registro: any) {
+        const dialogRef = this.dialog.open(AsignacionLaboresRegistroComponent,{
+            data: {registro: registro}
+        } );
+    
         dialogRef.afterClosed().subscribe((result) => {
-            if (result == 'ok' && result != undefined) {
-                this.actividadesService
-                    .elimina_Actividades$({
-                        registroDatos
-                    })
-                    .subscribe((result) => {
-                        let message = result[0];
-                        this._snackBar.openFromComponent(SnackbarComponent, {
-                            duration: 3 * 1000,
-                            data: message['']
-                        });
-                    });
-                this.cargarListaDatos();
-            }
-        });
-    }
-
-    openDialog(registro: ActividadModel) {
-        const dialogRef = this.dialog.open(AsignacionLaboresRegistroComponent, {
-            data: {registro}
-        });
-
-        dialogRef.afterClosed().subscribe((result) => {
-            console.log(result);
             if (result) {
                 this.cargarListaDatos();
             }
         });
     }
 
-    applyFilterGlobal(filterValue: string) {
-        filterValue = filterValue.trim();
-        filterValue = filterValue.toLowerCase();
-        this.dataSource.filter = filterValue;
+    cargarListaDatos() {
+        this.loadingData = true;
+        this.asignacionLaboresService
+            .listarAsignaciones$({})
+            .subscribe((result) => {
+                console.log(result);
+                this.listadoResult = []
+                this.listadoResult = result;
+                this.calendarComponent.events = this.listadoResult
+                this.loadingData = false;
+            });
+        this.loadingData = false;
     }
 
-    renderColumns() {
-        this.customColumns = [
-            {
-                name: 'nro',
-                label: 'NRO',
-                esFlag: false,
-                width: 'mat-column mat-column-60 center-cell'
-            },
-            {
-                name: 'codigo',
-                label: 'CODIGO',
-                esFlag: false,
-                width: 'mat-column mat-column-120 center-cell'
-            },
-            {
-                name: 'nombre',
-                label: 'NOMBRE',
-                esFlag: false,
-                width: 'mat-column mat-column-120 center-cell'
-            },  
-            {
-                name: 'estado',
-                label: 'ESTADO',
-                esFlag: true,
-                width: 'mat-column mat-column-100 center-cell'
-            },
-            {
-                name: 'actions',
-                label: '...',
-                esFlag: false,
-                width: 'mat-column mat-column-120 center-cell'
+    exportarDatos() {
+        this.asyncAction(this.listadoResult)
+            .then(() => {
+                this.ref.markForCheck();
+            })
+            .catch((e: any) => {
+                this.ref.markForCheck();
+            });
+    }
+
+    asyncAction(listaDatos: any[]) {
+        let data = listaDatos;      
+        const promise = new Promise((resolve, reject) => {
+            try {
+                setTimeout(() => {
+                    const columnsSize = [
+                        20, 30, 30, 40, 40, 10, 15, 10, 20, 20, 20, 15
+                    ];
+
+                    this.excelService.exportToExcelGenerico(
+                        'ASIGNACIONES LABORALES',
+                        'DATA',
+                        this.customColumns.filter(
+                            (f) =>
+                                f.name !== 'indice' &&
+                                f.name !== 'actions' &&
+                                f.name !== 'select'
+                        ),
+                        data,
+                        columnsSize,
+                        'ListadoAsignaciones',
+                        true
+                    );
+                }, 0);
+            } catch (e) {
+                reject(e);
             }
-        ];
-        this.displayedColumns = this.customColumns.map(
-            (column: any) => column.name
-        );
+        });
+        return promise;
     }
-
-    exportarDatos() {   }
 }

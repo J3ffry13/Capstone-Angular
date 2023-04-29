@@ -1,4 +1,4 @@
-import {Component, ViewChild, ChangeDetectorRef, OnInit} from '@angular/core';
+import {Component, ViewChild, ChangeDetectorRef, OnInit, AfterViewInit} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -19,7 +19,7 @@ import { GrupoTrabajoModel } from '@/Models/configuracion/GrupoTrabajo.modedel';
     templateUrl: './gruposTrabajo-listado.component.html',
     styleUrls: ['./gruposTrabajo-listado.component.scss']
 })
-export class GrupoTrabajoListadoComponent implements OnInit {
+export class GrupoTrabajoListadoComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
     listadoResult: any[] = [];
@@ -47,6 +47,10 @@ export class GrupoTrabajoListadoComponent implements OnInit {
         this.user = this.loginService.getTokenDecoded();
         this.createFrom();
         this.renderColumns();
+        this.cargarListaDatos();
+    }
+
+    ngAfterViewInit(): void {
         this.cargarListaDatos();
     }
 
@@ -187,6 +191,43 @@ export class GrupoTrabajoListadoComponent implements OnInit {
         else return 'background-color: yellow'
     }
     
+    exportarDatos() {
+        this.asyncAction(this.listadoResult)
+            .then(() => {
+                this.ref.markForCheck();
+            })
+            .catch((e: any) => {
+                this.ref.markForCheck();
+            });
+    }
 
-    exportarDatos() {   }
+    asyncAction(listaDatos: any[]) {
+        let data = listaDatos;     
+        const promise = new Promise((resolve, reject) => {
+            try {
+                setTimeout(() => {
+                    const columnsSize = [
+                        20, 30, 30, 40, 40, 10, 15, 10, 20, 20, 20, 15
+                    ];
+
+                    this.excelService.exportToExcelGenerico(
+                        'LISTADO DE GRUPOS DE TRABAJO',
+                        'DATA',
+                        this.customColumns.filter(
+                            (f) =>
+                                f.name !== 'actions' &&
+                                f.name !== 'select'
+                        ),
+                        data,
+                        columnsSize,
+                        'ListadoGruposTrabajos',
+                        true
+                    );
+                }, 0);  
+            } catch (e) {
+                reject(e);
+            }
+        });
+        return promise;
+    }
 }

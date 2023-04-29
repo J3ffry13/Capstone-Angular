@@ -1,14 +1,12 @@
 import {Inject, ViewChild} from '@angular/core';
 import {
-    MatDialog,
-    MatDialogRef,
-    MAT_DIALOG_DATA
+    MatDialog
 } from '@angular/material/dialog';
 import {Component, ChangeDetectorRef} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {OnInit, AfterViewInit} from '@angular/core';
 import moment from 'moment';
-import {map, startWith} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {LoginService} from '@services/login.service';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -42,7 +40,7 @@ export class TrabajadoresRegistroComponent implements OnInit, AfterViewInit {
 
     displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
-    listadoResult: TrabajadorModel[] = [];
+    listadoResult: any[] = [];
     customColumns: any[] = [];
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -131,7 +129,6 @@ export class TrabajadoresRegistroComponent implements OnInit, AfterViewInit {
 
     refreshLista() {
         this.listadoResult = this.listadoResult.filter((x) => x.status == true);
-        // console.log(this.lis);
         this.dataSource = new MatTableDataSource(this.listadoResult);
         this.loading = false;
         this.dataSource.paginator = this.paginator;
@@ -333,13 +330,28 @@ export class TrabajadoresRegistroComponent implements OnInit, AfterViewInit {
 
     guardarRegistro() {
         let registroDatos: PersonaModel = new PersonaModel();
+        console.log(this.listadoResult);
         registroDatos.clean();
         registroDatos = this.registroForm.getRawValue();
+        registroDatos.nombres = registroDatos.nombres.toUpperCase()
+        registroDatos.apellidos = registroDatos.apellidos.toUpperCase()
         registroDatos.f_nacimiento = moment(this.registroForm.getRawValue().f_nacimiento).format('YYYY-MM-DD');
         registroDatos.idPersona = this.registro.idPersona;
         registroDatos.accion = this.registro.idPersona > 0 ? 2 : 1;
         registroDatos.login = this.user.usuarioNombre;
         registroDatos.urlImagen = this.registro.urlImagen
+        this.listadoResult.forEach(x => {
+            if (x.f_inicio !== null){
+                let fechaI = moment(x.f_inicio, 'DD/MM/YYYY');
+                x.f_inicio = fechaI.format('YYYY-MM-DD');
+            }
+            if (x.f_fin !== null && x.f_fin !== ''){
+                let fecha = moment(x.f_fin, 'DD/MM/YYYY');
+                x.f_fin = fecha.format('YYYY-MM-DD');
+            }else {
+                x.f_fin = null
+            }
+        });
         registroDatos.trabajadores = JSON.stringify(this.listadoResult);
         if (
             this.imageBase64 != this.imageBase64Init &&

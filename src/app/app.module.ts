@@ -79,6 +79,14 @@ import { MatSortModule } from '@angular/material/sort';
 import { RegistroAsistenciaRegistroComponent } from '@pages/Control-Asistencias/registroAsistencia/registroAsistencia-registro.component';
 import { AsignacionLaboresListadoComponent } from '@pages/Procesos/asignacionLabores/asignacionLabores-listado/asignacionLabores-listado.component';
 import { AsignacionLaboresRegistroComponent } from '@pages/Procesos/asignacionLabores/asignacionLabores-registro/asignacionLabores-registro.component';
+import { IngresosListadoComponent } from '@pages/Finanzas/Ingresos/ingresos-listado/ingresos-listado.component';
+import { IngresosRegistroComponent } from '@pages/Finanzas/Ingresos/ingresos-registro/ingresos-registro.component';
+import { EgresosListadoComponent } from '@pages/Finanzas/egresos/egresos-listado/egresos-listado.component';
+import { EgresosRegistroComponent } from '@pages/Finanzas/egresos/egresos-registro/egresos-registro.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+
+import { DashboardReportComponent } from '@pages/Reportes/dashboard-report/dashboard-report.component';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'es-ES');
@@ -118,9 +126,15 @@ registerLocaleData(localeEn, 'es-ES');
         AsignacionLaboresListadoComponent,
         AsignacionLaboresRegistroComponent,
         RegistroAsistenciaRegistroComponent,
+        IngresosListadoComponent,
+        IngresosRegistroComponent,
+        EgresosListadoComponent,
+        EgresosRegistroComponent,
+        DashboardReportComponent,
     ],
     imports: [
         BrowserModule,
+        FullCalendarModule,
         StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
         HttpClientModule,
         AppRoutingModule,
@@ -154,7 +168,8 @@ registerLocaleData(localeEn, 'es-ES');
         MatCheckboxModule,
         MatDatepickerModule,
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-        provideStorage(() => getStorage())
+        provideStorage(() => getStorage()),
+        HighchartsChartModule,
     ],
     providers: [
         {

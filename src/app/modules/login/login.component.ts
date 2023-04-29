@@ -7,9 +7,7 @@ import {
 } from '@angular/core';
 import {UntypedFormGroup, UntypedFormControl, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
-import {AppService} from '@services/app.service';
 import {LoginService} from '@services/login.service';
-import {UsuarioModel} from '@/Models/Usuario.model';
 import {Router} from '@angular/router';
 import { CurrentUser } from '@/Models/auth/auth.model';
 

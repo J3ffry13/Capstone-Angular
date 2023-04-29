@@ -1,27 +1,30 @@
-import {Component, ViewChild, ChangeDetectorRef, OnInit} from '@angular/core';
+import {
+    Component,
+    ViewChild,
+    ChangeDetectorRef,
+    OnInit,
+    AfterViewInit
+} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {ExcelService} from '@services/excel.service';
 import {MatDialog} from '@angular/material/dialog';
-import {ClienteModel} from '@/Models/ClienteModel.model';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {LoginService} from '@services/login.service';
 import {ConfirmActionComponent} from '@components/crud/confirm-action/confirm-action.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
-import { ActividadesService } from '@services/configuracion/actividades.service';
-import { ActividadModel } from '@/Models/configuracion/ActividadModel.model';
-import { ActividadesRegistroComponent } from '../actividadesRegistro/actividades-registro.component';
-
+import {ActividadesService} from '@services/configuracion/actividades.service';
+import {ActividadModel} from '@/Models/configuracion/ActividadModel.model';
+import {ActividadesRegistroComponent} from '../actividadesRegistro/actividades-registro.component';
 
 @Component({
     selector: 'app-actividades-listado',
     templateUrl: './actividades-listado.component.html',
     styleUrls: ['./actividades-listado.component.scss']
 })
-export class ActividadesListadoComponent implements OnInit {
+export class ActividadesListadoComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
     listadoResult: any[] = [];
@@ -29,7 +32,6 @@ export class ActividadesListadoComponent implements OnInit {
     loading = false;
     loadingData = false;
     user: CurrentUser;
-    formGroupFiltros: FormGroup;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
@@ -39,8 +41,7 @@ export class ActividadesListadoComponent implements OnInit {
         private loginService: LoginService,
         private excelService: ExcelService,
         public dialog: MatDialog,
-        private _snackBar: MatSnackBar,
-        private formBuilder: FormBuilder,
+        private _snackBar: MatSnackBar
     ) {}
 
     ngOnInit() {
@@ -50,6 +51,9 @@ export class ActividadesListadoComponent implements OnInit {
         this.cargarListaDatos();
     }
 
+    ngAfterViewInit(): void {
+        this.cargarListaDatos();
+    }
 
     refreshLista() {
         this.dataSource = new MatTableDataSource(this.listadoResult);
@@ -61,15 +65,12 @@ export class ActividadesListadoComponent implements OnInit {
 
     cargarListaDatos() {
         this.loadingData = true;
-        this.actividadesService
-            .listarActividades$({
-            })
-            .subscribe((result) => {
-                this.listadoResult = result;
-                this.refreshLista();
-                this.loading = false;
-                this.loadingData = false;
-            });
+        this.actividadesService.listarActividades$({}).subscribe((result) => {
+            this.listadoResult = result;
+            this.refreshLista();
+            this.loading = false;
+            this.loadingData = false;
+        });
         this.loadingData = false;
     }
 
@@ -88,7 +89,7 @@ export class ActividadesListadoComponent implements OnInit {
         registroDatos.clean();
         registroDatos.idActividad = registro.idActividad;
         registroDatos.accion = 3;
-        (registroDatos.login = this.user.usuarioNombre);
+        registroDatos.login = this.user.usuarioNombre;
 
         const dialogRef = this.dialog.open(ConfirmActionComponent, {
             data: {
@@ -120,7 +121,6 @@ export class ActividadesListadoComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe((result) => {
-            console.log(result);
             if (result) {
                 this.cargarListaDatos();
             }
@@ -139,20 +139,20 @@ export class ActividadesListadoComponent implements OnInit {
                 name: 'nro',
                 label: 'NRO',
                 esFlag: false,
-                width: 'mat-column center-cell'
+                width: 'mat-column  mat-column-60  center-cell'
             },
             {
                 name: 'codigo',
                 label: 'CODIGO',
                 esFlag: false,
-                width: 'mat-column center-cell'
+                width: 'mat-column  mat-column-60  center-cell'
             },
             {
                 name: 'nombre',
                 label: 'NOMBRE',
                 esFlag: false,
-                width: 'mat-column center-cell'
-            },  
+                width: 'mat-column mat-column-60  center-cell'
+            },
             {
                 name: 'estado',
                 label: 'ESTADO',
@@ -171,5 +171,50 @@ export class ActividadesListadoComponent implements OnInit {
         );
     }
 
-    exportarDatos() {   }
+    exportarDatos() {
+        this.asyncAction(this.listadoResult)
+            .then(() => {
+                this.ref.markForCheck();
+            })
+            .catch((e: any) => {
+                this.ref.markForCheck();
+            });
+    }
+
+    asyncAction(listaDatos: any[]) {
+        let data = listaDatos;
+        data.forEach(r => {
+            r['estado'] == 1 ? r['estado'] = 'ACTIVO' : r['estado'] = 'INACTIVO'
+        })   
+        const promise = new Promise((resolve, reject) => {
+            try {
+                setTimeout(() => {
+                    const columnsSize = [
+                        30, 30, 30, 15, 40, 10, 15, 10, 20, 20, 20, 15
+                    ];
+
+                    this.excelService.exportToExcelGenerico(
+                        'LISTADO DE ACTIVIDADES',
+                        'DATA',
+                        this.customColumns.filter(
+                            (f) =>
+                                f.name !== 'indice' &&
+                                f.name !== 'actions' &&
+                                f.name !== 'select'
+                        ),
+                        data,
+                        columnsSize,
+                        'ListadoActividades',
+                        true
+                    );
+                }, 0);
+                data.forEach(r => {
+                    r['estado'] == 'ACTIVO' ? r['estado'] = true : r['estado'] = false
+                })    
+            } catch (e) {
+                reject(e);
+            }
+        });
+        return promise;
+    }
 }

@@ -63,7 +63,7 @@
                             <div class="col-4 inputs">
                                 <mat-form-field appearance="fill">
                                     <mat-label>APELLIDOS</mat-label>
-                                    <input matInput placeholder="Apellidos" formControlName="apellidos" type="text" />
+                                    <input matInput placeholder="Apellidos"  formControlName="apellidos" type="text" />
                                     <mat-error><strong>{{ getError('apellidos') }}</strong></mat-error>
                                 </mat-form-field>
                             </div>
@@ -178,8 +178,8 @@
                       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
       
-                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
-                    </mat-paginator>
+                    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons>
+                    </mat-paginator> -->
                   </div>
                 </div>
               </div>
