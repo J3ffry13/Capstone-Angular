@@ -114,10 +114,25 @@ export const MENU = [
                 path: ['/reports/dashboard']
             },
             {
-                name: 'Blank',
-                iconClasses: 'fas fa-file',
-                path: ['/sub-menu-2']
-            }
+                name: 'Ingresos vs Egresos',
+                iconClasses: 'fas fa-balance-scale',
+                path: ['/reports/incomevsexpenses']
+            },
+            {
+                name: 'Reporte de Asistencias',
+                iconClasses: '	far fa-calendar-alt',
+                path: ['/reports/asistences']
+            },
+            {
+                name: 'Reporte de Horas',
+                iconClasses: 'fas fa-business-time',
+                path: ['/reports/hours']
+            },
+            {
+                name: 'Reporte de Actividades',
+                iconClasses: 'fas fa-tasks',
+                path: ['/reports/activitiesxworkers']
+            },
         ]
     },
     {

@@ -62,6 +62,7 @@ export class RegistroAsistenciaRegistroComponent implements OnInit {
     }
 
     buscarTrabajador() {
+        console.log('sdf');
         this.load = true;
         this.registroAsistenciasService
             .obtenerTrabajador$({

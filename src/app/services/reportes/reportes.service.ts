@@ -7,15 +7,15 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class UtilsService {
+export class ReportesService {
     myAppUrl: string;
     myApiUrl: string;
   
     constructor(private http: HttpClient) {
       this.myAppUrl = environment.endpoint;
-      this.myApiUrl = '/api/utils';
+      this.myApiUrl = '/api/reportes';
     }
 
-  public listadoCombos$ = (datos: any): Observable<any> =>
-    this.http.post(this.myAppUrl + this.myApiUrl + '/listadoCombos', datos);
+  public listadoDasboard$ = (datos: any): Observable<any> =>
+    this.http.get(this.myAppUrl + this.myApiUrl + '/listadoDashboard', datos);
 }
