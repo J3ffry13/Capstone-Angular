@@ -87,6 +87,10 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { DashboardReportComponent } from '@pages/Reportes/dashboard-report/dashboard-report.component';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { AsistenciaReportComponent } from '@pages/Reportes/asistencias-report/asistencias-report.component';
+import { HorasReportComponent } from '@pages/Reportes/horas-report/horas-report.component';
+import { IngresosVSegresosReportComponent } from '@pages/Reportes/IngresovsEgresos-report/ingresosVSegresos-report.component';
+import { ActividadesReportComponent } from '@pages/Reportes/actividades-report/actividades-report.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'es-ES');
@@ -131,6 +135,10 @@ registerLocaleData(localeEn, 'es-ES');
         EgresosListadoComponent,
         EgresosRegistroComponent,
         DashboardReportComponent,
+        IngresosVSegresosReportComponent,
+        AsistenciaReportComponent,
+        HorasReportComponent,
+        ActividadesReportComponent,
     ],
     imports: [
         BrowserModule,

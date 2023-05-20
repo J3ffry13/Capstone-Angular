@@ -17,6 +17,10 @@ import { AsignacionLaboresListadoComponent } from '@pages/Procesos/asignacionLab
 import { IngresosListadoComponent } from '@pages/Finanzas/Ingresos/ingresos-listado/ingresos-listado.component';
 import { EgresosListadoComponent } from '@pages/Finanzas/egresos/egresos-listado/egresos-listado.component';
 import { DashboardReportComponent } from '@pages/Reportes/dashboard-report/dashboard-report.component';
+import { AsistenciaReportComponent } from '@pages/Reportes/asistencias-report/asistencias-report.component';
+import { HorasReportComponent } from '@pages/Reportes/horas-report/horas-report.component';
+import { IngresosVSegresosReportComponent } from '@pages/Reportes/IngresovsEgresos-report/ingresosVSegresos-report.component';
+import { ActividadesReportComponent } from '@pages/Reportes/actividades-report/actividades-report.component';
 
 const routes: Routes = [
     {
@@ -67,8 +71,20 @@ const routes: Routes = [
                 component: DashboardReportComponent,
             },
             {
-                path: '',
-                component: DashboardComponent
+                path: 'reports/incomevsexpenses',
+                component: IngresosVSegresosReportComponent,
+            },
+            {
+                path: 'reports/asistences',
+                component: AsistenciaReportComponent,
+            },
+            {
+                path: 'reports/hours',
+                component: HorasReportComponent,
+            },
+            {
+                path: 'reports/activitiesxworkers',
+                component: ActividadesReportComponent,
             }
         ]
     },

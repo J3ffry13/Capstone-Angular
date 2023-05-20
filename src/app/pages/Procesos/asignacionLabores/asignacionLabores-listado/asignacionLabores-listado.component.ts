@@ -134,7 +134,6 @@ export class AsignacionLaboresListadoComponent implements OnInit {
         this.asignacionLaboresService
             .listarAsignaciones$({})
             .subscribe((result) => {
-                console.log(result);
                 this.listadoResult = []
                 this.listadoResult = result;
                 this.calendarComponent.events = this.listadoResult

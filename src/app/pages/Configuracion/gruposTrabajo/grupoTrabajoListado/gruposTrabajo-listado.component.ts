@@ -1,4 +1,4 @@
-import {Component, ViewChild, ChangeDetectorRef, OnInit, AfterViewInit} from '@angular/core';
+import {Component, ViewChild, ChangeDetectorRef, OnInit} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -19,7 +19,7 @@ import { GrupoTrabajoModel } from '@/Models/configuracion/GrupoTrabajo.modedel';
     templateUrl: './gruposTrabajo-listado.component.html',
     styleUrls: ['./gruposTrabajo-listado.component.scss']
 })
-export class GrupoTrabajoListadoComponent implements OnInit, AfterViewInit {
+export class GrupoTrabajoListadoComponent implements OnInit {
     displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
     listadoResult: any[] = [];
@@ -47,10 +47,6 @@ export class GrupoTrabajoListadoComponent implements OnInit, AfterViewInit {
         this.user = this.loginService.getTokenDecoded();
         this.createFrom();
         this.renderColumns();
-        this.cargarListaDatos();
-    }
-
-    ngAfterViewInit(): void {
         this.cargarListaDatos();
     }
 

@@ -2,8 +2,7 @@ import {
     Component,
     ViewChild,
     ChangeDetectorRef,
-    OnInit,
-    AfterViewInit
+    OnInit
 } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -24,7 +23,7 @@ import {ActividadesRegistroComponent} from '../actividadesRegistro/actividades-r
     templateUrl: './actividades-listado.component.html',
     styleUrls: ['./actividades-listado.component.scss']
 })
-export class ActividadesListadoComponent implements OnInit, AfterViewInit {
+export class ActividadesListadoComponent implements OnInit {
     displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
     listadoResult: any[] = [];
@@ -48,10 +47,6 @@ export class ActividadesListadoComponent implements OnInit, AfterViewInit {
         this.loading = true;
         this.user = this.loginService.getTokenDecoded();
         this.renderColumns();
-        this.cargarListaDatos();
-    }
-
-    ngAfterViewInit(): void {
         this.cargarListaDatos();
     }
 

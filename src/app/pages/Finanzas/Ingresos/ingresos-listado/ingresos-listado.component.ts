@@ -2,8 +2,7 @@ import {
     Component,
     ViewChild,
     ChangeDetectorRef,
-    OnInit,
-    AfterViewInit
+    OnInit
 } from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -14,7 +13,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
-import {UtilsService} from '@services/utils/utils.service';
 import {LoginService} from '@services/login.service';
 import {ConfirmActionComponent} from '@components/crud/confirm-action/confirm-action.component';
 import moment from 'moment';
@@ -27,7 +25,7 @@ import {IngresosRegistroComponent} from '../ingresos-registro/ingresos-registro.
     templateUrl: './ingresos-listado.component.html',
     styleUrls: ['./ingresos-listado.component.scss']
 })
-export class IngresosListadoComponent implements OnInit, AfterViewInit {
+export class IngresosListadoComponent implements OnInit {
     displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
     listadoResult: any[] = [];
@@ -55,10 +53,6 @@ export class IngresosListadoComponent implements OnInit, AfterViewInit {
         this.user = this.loginService.getTokenDecoded();
         this.createFrom();
         this.renderColumns();
-        this.cargarListaDatos();
-    }
-
-    ngAfterViewInit(): void {
         this.cargarListaDatos();
     }
 
