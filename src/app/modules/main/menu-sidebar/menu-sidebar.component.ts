@@ -47,197 +47,127 @@ export const MENU = [
     {
         name: 'CONFIGUACIÓN',
         iconClasses: 'fas fa-th-list',
-        // path: ['/masters/'],
+        permission: 'accessToConfiguracionModule',
         children: [
             {
                 name: 'Trabajadores',
                 iconClasses: 'fas fa-user-alt',
-                path: ['/masters/workers']
+                path: ['/masters/workers'],
+                permission: 'accessToConfiguracionModuleTrabajadores'
             },
             {
                 name: 'Actividades',
                 iconClasses: 'fas fa-tasks',
-                path: ['masters/activities']
+                path: ['masters/activities'],
+                permission: 'accessToConfiguracionModuleActividades'
             },
             {
                 name: 'Grupos de Trabajo',
                 iconClasses: 'fas fa-users',
-                path: ['masters/workgroup']
+                path: ['masters/workgroup'],
+                permission: 'accessToConfiguracionModuleGruposTrabajo'
             }
         ]
     },
     {
         name: 'PROCESOS',
         iconClasses: 'fas fa-edit',
+        permission: 'accessToProcessModule',
         children: [
             {
                 name: 'Asiganción de Labores',
                 iconClasses: 'fas fa-tools',
-                path: ['/process/assigment']
+                path: ['/process/assigment'],
+                permission: 'accessToProcessModuleAsignacionLabores'
             },
         ]
     },
     {
         name: 'ASISTENCIAS',
+        permission: 'accessToAssistsModule',
         iconClasses: 'fas fa-calendar-alt',        
         children: [
             {
                 name: 'Registro Asistencias',
                 iconClasses: 'fas fa-user-clock',
-                path: ['/assists/registerpersonal']
+                path: ['/assists/registerpersonal'],
+                permission: 'accessToAssistsModuleRegistroPersonal'
             },
         ]
     },
     {
         name: 'FINANZAS',
-        iconClasses: 'fas fa-donate',        
+        iconClasses: 'fas fa-donate',     
+        permission: 'accessToFinanceModule',
         children: [
             {
                 name: 'Ingresos',
                 iconClasses: 'fas fa-comment-dollar',
-                path: ['/finance/income']
+                path: ['/finance/income'],
+                permission: 'accessToFinanceModuleIngresos'
             },
             {
                 name: 'Egresos',
                 iconClasses: '	fas fa-comments-dollar',
-                path: ['/finance/expenses']
+                path: ['/finance/expenses'],
+                permission: 'accessToFinanceModuleEgresos'
             },
         ]
     },
     {
         name: 'REPORTES',
-        iconClasses: 'fas fa-chart-bar',        
+        iconClasses: 'fas fa-chart-bar',  
+        permission: 'accessToReportsModule',
         children: [
             {
                 name: 'Dashboard',
                 iconClasses: 'fas fa-chart-pie',
-                path: ['/reports/dashboard']
+                path: ['/reports/dashboard'],
+                permission: 'accessToReportsModuleDashboard'
             },
             {
                 name: 'Ingresos vs Egresos',
                 iconClasses: 'fas fa-balance-scale',
-                path: ['/reports/incomevsexpenses']
+                path: ['/reports/incomevsexpenses'],
+                permission: 'accessToReportsModuleIngresosVSEgresos'
             },
             {
                 name: 'Reporte de Asistencias',
                 iconClasses: '	far fa-calendar-alt',
-                path: ['/reports/asistences']
+                path: ['/reports/asistences'],
+                permission: 'accessToReportsModuleReporteAsistencias'
             },
             {
                 name: 'Reporte de Horas',
                 iconClasses: 'fas fa-business-time',
-                path: ['/reports/hours']
+                path: ['/reports/hours'],
+                permission: 'accessToReportsModuleReporteHoras'
             },
             {
                 name: 'Reporte de Actividades',
                 iconClasses: 'fas fa-tasks',
-                path: ['/reports/activitiesxworkers']
+                path: ['/reports/activitiesxworkers'],
+                permission: 'accessToReportsModuleReporteActividades'
             },
         ]
     },
     {
         name: 'Seguridad',
-        iconClasses: 'fas fa-user-shield',        
+        iconClasses: 'fas fa-user-shield',   
+        permission: 'accessToSecurityModule',   
         children: [
             {
                 name: 'Perfiles Web',
                 iconClasses: 'far fa-id-badge',
-                path: ['/security/webprofiles']
+                path: ['/security/webprofiles'],
+                permission: 'accessToSecurityModulePerfilesWeb'
             },
             {
                 name: 'Usuarios',
                 iconClasses: 'far fa-id-badge',
-                path: ['/security/users']
+                path: ['/security/users'],
+                permission: 'accessToSecurityModuleUsuarios'
             }
         ]
     }
 ];
-// export const MENU = [
-//     {
-//         name: 'CONFIGUACIÓN',
-//         iconClasses: 'fas fa-th-list',
-//         // path: ['/masters/'],
-//         children: [
-//             {
-//                 name: 'Trabajores',
-//                 iconClasses: 'fas fa-user-alt',
-//                 path: ['/masters/workers']
-//             },
-//             {
-//                 name: 'Actividades',
-//                 iconClasses: 'fas fa-tasks',
-//                 path: ['masters/activities']
-//             },
-//             {
-//                 name: 'Grupos de Trabajo',
-//                 iconClasses: 'fas fa-users',
-//                 path: ['masters/workgroup']
-//             }
-//         ]
-//     },
-//     {
-//         name: 'PROCESOS',
-//         iconClasses: 'fas fa-edit',
-//         children: [
-//             {
-//                 name: 'Asiganción de Labores',
-//                 iconClasses: 'fas fa-tools',
-//                 path: ['/process/assigment']
-//             },
-//         ]
-//     },
-//     {
-//         name: 'ASISTENCIAS',
-//         iconClasses: 'fas fa-calendar-alt',
-//         children: [
-//             {
-//                 name: 'Registro Personal',
-//                 iconClasses: 'fas fa-user-clock',
-//                 path: ['/assists/registerpersonal']
-//             },
-//         ]
-//     },
-//     {
-//         name: 'FINANZAS',
-//         iconClasses: 'fas fa-donate',
-//         children: [
-//             {
-//                 name: 'Ingresos',
-//                 iconClasses: 'fas fa-comment-dollar',
-//                 path: ['/finance/income']
-//             },
-//             {
-//                 name: 'Egresos',
-//                 iconClasses: '	fas fa-comments-dollar',
-//                 path: ['/finance/expenses']
-//             },
-//         ]
-//     },
-//     {
-//         name: 'REPORTES',
-//         iconClasses: 'fas fa-chart-bar',
-//         children: [
-//             {
-//                 name: 'Dashboard',
-//                 iconClasses: 'fas fa-chart-pie',
-//                 path: ['/reports/dashboard']
-//             },
-//             {
-//                 name: 'Blank',
-//                 iconClasses: 'fas fa-file',
-//                 path: ['/sub-menu-2']
-//             }
-//         ]
-//     },
-//     {
-//         name: 'Seguridad',
-//         iconClasses: 'fas fa-user-shield',
-//         children: [
-//             {
-//                 name: 'Usuarios',
-//                 iconClasses: 'far fa-id-badge',
-//                 path: ['/security/users']
-//             }
-//         ]
-//     }
-// ];

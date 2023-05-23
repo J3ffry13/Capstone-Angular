@@ -95,6 +95,7 @@ import {PerfilWebListadoComponent} from '@pages/Seguridad/perfilWeb/perfil-web-l
 import {PerfilWebRegistroComponent} from '@pages/Seguridad/perfilWeb/perfil-web-registro/perfil-web-registro.component';
 import {UsuariosListadoComponent} from './pages/Seguridad/usuarios/usuarios-listado/usuarios-listado.component';
 import {UsuariosRegistroComponent} from './pages/Seguridad/usuarios/usuarios-registro/usuarios-registro.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'es-ES');
@@ -124,6 +125,7 @@ registerLocaleData(localeEn, 'es-ES');
         ConfirmActionComponent,
         SnackbarComponent,
         LoaderComponent,
+        DashboardComponent,
         TrabajadoresListadoComponent,
         TrabajadoresRegistroComponent,
         TrabajadorContratoComponent,
@@ -146,9 +148,10 @@ registerLocaleData(localeEn, 'es-ES');
         PerfilWebListadoComponent,
         PerfilWebRegistroComponent,
         UsuariosListadoComponent,
-        UsuariosRegistroComponent
+        UsuariosRegistroComponent,
     ],
     imports: [
+        NgxPermissionsModule.forRoot(),
         BrowserModule,
         FullCalendarModule,
         StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
