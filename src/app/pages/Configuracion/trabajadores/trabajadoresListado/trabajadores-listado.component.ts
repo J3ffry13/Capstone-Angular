@@ -70,7 +70,7 @@ export class TrabajadoresListadoComponent implements OnInit, AfterViewInit {
 
     createFrom() {
         this.formGroupFiltros = this.formBuilder.group({
-          dni: new FormControl(''),
+          dni: new FormControl(null),
         });
       }
 
@@ -89,7 +89,7 @@ export class TrabajadoresListadoComponent implements OnInit, AfterViewInit {
                 dni: this.formGroupFiltros.value.dni == null ? '' : this.formGroupFiltros.value.dni,
             })
             .subscribe((result) => {
-                this.listadoResult = result;
+                this.listadoResult = JSON.parse(JSON.stringify(result));
                 this.refreshLista();
                 this.loading = false;
                 this.loadingData = false;
@@ -212,10 +212,15 @@ export class TrabajadoresListadoComponent implements OnInit, AfterViewInit {
     }
 
     getItemByHtml(nume: number){
-        if (nume == 1) return 'ACTIVO'
-        else if (nume == 2) return 'CESADO'
-        else return 'SIN CONTRATO'
-    } 
+        switch (nume) {
+            case 1:
+                return 'ACTIVO';
+            case 2:
+                return 'CESADO';
+            default:
+                return 'SIN CONTRATO';
+        }
+    }
 
      getItemByScss(nume: number){
         if (nume == 1) return 'background-color: green'

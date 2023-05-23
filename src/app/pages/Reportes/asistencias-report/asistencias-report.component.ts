@@ -26,6 +26,7 @@ export class AsistenciaReportComponent implements OnInit {
     listTipoDoccbo: any[] = [];
     listTipoContcbo: any[] = [];
     customColumns: any[] = [];
+    pageSizeOptions: any[] = [20, 30, 40, 50];
     loading = false;
     loadingData = false;
     formGroupFiltros: FormGroup;

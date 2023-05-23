@@ -21,6 +21,9 @@ import { AsistenciaReportComponent } from '@pages/Reportes/asistencias-report/as
 import { HorasReportComponent } from '@pages/Reportes/horas-report/horas-report.component';
 import { IngresosVSegresosReportComponent } from '@pages/Reportes/IngresovsEgresos-report/ingresosVSegresos-report.component';
 import { ActividadesReportComponent } from '@pages/Reportes/actividades-report/actividades-report.component';
+import { UsuariosListadoComponent } from '@pages/Seguridad/usuarios/usuarios-listado/usuarios-listado.component';
+import { PerfilWebListadoComponent } from '@pages/Seguridad/perfilWeb/perfil-web-listado/perfil-web-listado.component';
+import { PerfilWebRegistroComponent } from '@pages/Seguridad/perfilWeb/perfil-web-registro/perfil-web-registro.component';
 
 const routes: Routes = [
     {
@@ -30,6 +33,10 @@ const routes: Routes = [
         canActivateChild: [AuthGuard],
         children: [
             ///////
+            {
+                path: '',
+                component: DashboardComponent
+            },
             {
                 path: 'masters/workers',
                 component: TrabajadoresListadoComponent
@@ -85,7 +92,19 @@ const routes: Routes = [
             {
                 path: 'reports/activitiesxworkers',
                 component: ActividadesReportComponent,
-            }
+            },
+            {
+                path: 'security/webprofiles',
+                component: PerfilWebListadoComponent,
+            },
+            {
+                path: 'security/webprofiles-reg',
+                component: PerfilWebRegistroComponent,
+            },
+            {
+                path: 'security/users',
+                component: UsuariosListadoComponent,
+            },
         ]
     },
     {

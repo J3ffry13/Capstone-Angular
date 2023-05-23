@@ -25,6 +25,7 @@ export class ActividadesReportComponent implements OnInit {
     dataSource: MatTableDataSource<any>;
     listadoResult: any[] = [];
     customColumns: any[] = [];
+    pageSizeOptions: any[] = [20, 30, 40, 50];
     loading = false;
     loadingData = false;
     formGroupFiltros: FormGroup;

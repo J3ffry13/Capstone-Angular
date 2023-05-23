@@ -10,14 +10,13 @@ import {HeaderComponent} from '@modules/main/header/header.component';
 import {FooterComponent} from '@modules/main/footer/footer.component';
 import {MenuSidebarComponent} from '@modules/main/menu-sidebar/menu-sidebar.component';
 import {BlankComponent} from '@pages/blank/blank.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RegisterComponent} from '@modules/register/register.component';
 import {DashboardComponent} from '@pages/dashboard/dashboard.component';
 import {ToastrModule} from 'ngx-toastr';
 import {MessagesComponent} from '@modules/main/header/messages/messages.component';
 import {NotificationsComponent} from '@modules/main/header/notifications/notifications.component';
-import {AngularFireModule} from '@angular/fire/compat';
 
 import {NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeEn from '@angular/common/locales/en';
@@ -73,24 +72,29 @@ import {MY_FORMATS_DDMMYYY} from './utils/format-datepicker';
 import {TrabajadorContratoComponent} from '@pages/Configuracion/trabajadores/trabajadorContrato/trabajador-contrato.component';
 import {GrupoTrabajoListadoComponent} from '@pages/Configuracion/gruposTrabajo/grupoTrabajoListado/gruposTrabajo-listado.component';
 import {GrupoTrabajoRegistroComponent} from '@pages/Configuracion/gruposTrabajo/grupoTrabajoRegistro/gruposTrabajo-registro.component';
-import { ActividadesListadoComponent } from '@pages/Configuracion/actividades/actividadesListado/actividades-listado.component';
-import { ActividadesRegistroComponent } from '@pages/Configuracion/actividades/actividadesRegistro/actividades-registro.component';
-import { MatSortModule } from '@angular/material/sort';
-import { RegistroAsistenciaRegistroComponent } from '@pages/Control-Asistencias/registroAsistencia/registroAsistencia-registro.component';
-import { AsignacionLaboresListadoComponent } from '@pages/Procesos/asignacionLabores/asignacionLabores-listado/asignacionLabores-listado.component';
-import { AsignacionLaboresRegistroComponent } from '@pages/Procesos/asignacionLabores/asignacionLabores-registro/asignacionLabores-registro.component';
-import { IngresosListadoComponent } from '@pages/Finanzas/Ingresos/ingresos-listado/ingresos-listado.component';
-import { IngresosRegistroComponent } from '@pages/Finanzas/Ingresos/ingresos-registro/ingresos-registro.component';
-import { EgresosListadoComponent } from '@pages/Finanzas/egresos/egresos-listado/egresos-listado.component';
-import { EgresosRegistroComponent } from '@pages/Finanzas/egresos/egresos-registro/egresos-registro.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
+import {ActividadesListadoComponent} from '@pages/Configuracion/actividades/actividadesListado/actividades-listado.component';
+import {ActividadesRegistroComponent} from '@pages/Configuracion/actividades/actividadesRegistro/actividades-registro.component';
+import {MatSortModule} from '@angular/material/sort';
+import {MatTreeModule} from '@angular/material/tree';
+import {RegistroAsistenciaRegistroComponent} from '@pages/Control-Asistencias/registroAsistencia/registroAsistencia-registro.component';
+import {AsignacionLaboresListadoComponent} from '@pages/Procesos/asignacionLabores/asignacionLabores-listado/asignacionLabores-listado.component';
+import {AsignacionLaboresRegistroComponent} from '@pages/Procesos/asignacionLabores/asignacionLabores-registro/asignacionLabores-registro.component';
+import {IngresosListadoComponent} from '@pages/Finanzas/Ingresos/ingresos-listado/ingresos-listado.component';
+import {IngresosRegistroComponent} from '@pages/Finanzas/Ingresos/ingresos-registro/ingresos-registro.component';
+import {EgresosListadoComponent} from '@pages/Finanzas/egresos/egresos-listado/egresos-listado.component';
+import {EgresosRegistroComponent} from '@pages/Finanzas/egresos/egresos-registro/egresos-registro.component';
+import {FullCalendarModule} from '@fullcalendar/angular';
 
-import { DashboardReportComponent } from '@pages/Reportes/dashboard-report/dashboard-report.component';
-import { HighchartsChartModule } from 'highcharts-angular';
-import { AsistenciaReportComponent } from '@pages/Reportes/asistencias-report/asistencias-report.component';
-import { HorasReportComponent } from '@pages/Reportes/horas-report/horas-report.component';
-import { IngresosVSegresosReportComponent } from '@pages/Reportes/IngresovsEgresos-report/ingresosVSegresos-report.component';
-import { ActividadesReportComponent } from '@pages/Reportes/actividades-report/actividades-report.component';
+import {DashboardReportComponent} from '@pages/Reportes/dashboard-report/dashboard-report.component';
+import {HighchartsChartModule} from 'highcharts-angular';
+import {AsistenciaReportComponent} from '@pages/Reportes/asistencias-report/asistencias-report.component';
+import {HorasReportComponent} from '@pages/Reportes/horas-report/horas-report.component';
+import {IngresosVSegresosReportComponent} from '@pages/Reportes/IngresovsEgresos-report/ingresosVSegresos-report.component';
+import {ActividadesReportComponent} from '@pages/Reportes/actividades-report/actividades-report.component';
+import {PerfilWebListadoComponent} from '@pages/Seguridad/perfilWeb/perfil-web-listado/perfil-web-listado.component';
+import {PerfilWebRegistroComponent} from '@pages/Seguridad/perfilWeb/perfil-web-registro/perfil-web-registro.component';
+import {UsuariosListadoComponent} from './pages/Seguridad/usuarios/usuarios-listado/usuarios-listado.component';
+import {UsuariosRegistroComponent} from './pages/Seguridad/usuarios/usuarios-registro/usuarios-registro.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'es-ES');
@@ -139,6 +143,10 @@ registerLocaleData(localeEn, 'es-ES');
         AsistenciaReportComponent,
         HorasReportComponent,
         ActividadesReportComponent,
+        PerfilWebListadoComponent,
+        PerfilWebRegistroComponent,
+        UsuariosListadoComponent,
+        UsuariosRegistroComponent
     ],
     imports: [
         BrowserModule,
@@ -146,6 +154,7 @@ registerLocaleData(localeEn, 'es-ES');
         StoreModule.forRoot({auth: authReducer, ui: uiReducer}),
         HttpClientModule,
         AppRoutingModule,
+        FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
         ToastrModule.forRoot({
@@ -175,9 +184,10 @@ registerLocaleData(localeEn, 'es-ES');
         NgOptimizedImage,
         MatCheckboxModule,
         MatDatepickerModule,
+        MatTreeModule,
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
         provideStorage(() => getStorage()),
-        HighchartsChartModule,
+        HighchartsChartModule
     ],
     providers: [
         {
@@ -185,7 +195,7 @@ registerLocaleData(localeEn, 'es-ES');
             useClass: AuthInterceptorService,
             multi: true
         },
-        { provide: MAT_DATE_LOCALE, useValue: 'es-ES' },
+        {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
         {
             provide: DateAdapter,
             useClass: MomentDateAdapter,

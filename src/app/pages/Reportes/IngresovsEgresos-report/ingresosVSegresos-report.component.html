@@ -140,7 +140,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
 
-              <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [length]="listadoResultEgresos.length"
+              <mat-paginator [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true" [length]="listadoResultEgresos.length"
                 style="background-color: rgb(253, 180, 166);">
               </mat-paginator>
             </div>

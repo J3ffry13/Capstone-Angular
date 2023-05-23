@@ -13,7 +13,7 @@
         <form class="row" [formGroup]="registroForm">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-4 inputs ">
+                    <div class="col-3 inputs ">
                         <mat-form-field appearance="fill">
                             <mat-label>Codigo</mat-label>
                             <input matInput placeholder="codigo" formControlName="codigo" minlength="3" maxlength="8"
@@ -21,14 +21,14 @@
                             <mat-error><strong>{{ getError('codigo') }}</strong></mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="col-4 inputs">
+                    <div class="col-6 inputs">
                         <mat-form-field appearance="fill">
                             <mat-label>Nombre</mat-label>
                             <input matInput placeholder="nombre" formControlName="nombre" maxlength="100" />
                             <mat-error><strong>{{ getError('nombre') }}</strong></mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="col-4 inputs">
+                    <div class="col-3 inputs" align="start">
                         <mat-slide-toggle class=" mt-auto ml-4" color="primary"
                             formControlName="estado">Activo</mat-slide-toggle>
                     </div>

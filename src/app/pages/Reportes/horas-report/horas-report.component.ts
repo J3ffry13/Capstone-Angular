@@ -24,6 +24,7 @@ export class HorasReportComponent implements OnInit {
     listadoResult: any[] = [];
     listSemanasCbo: any[] = [];
     customColumns: any[] = [];
+    pageSizeOptions: any[] = [20, 30, 40, 50];
     loading = false;
     loadingData = false;
     formGroupFiltros: FormGroup;

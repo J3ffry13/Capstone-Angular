@@ -140,6 +140,11 @@ export const MENU = [
         iconClasses: 'fas fa-user-shield',        
         children: [
             {
+                name: 'Perfiles Web',
+                iconClasses: 'far fa-id-badge',
+                path: ['/security/webprofiles']
+            },
+            {
                 name: 'Usuarios',
                 iconClasses: 'far fa-id-badge',
                 path: ['/security/users']

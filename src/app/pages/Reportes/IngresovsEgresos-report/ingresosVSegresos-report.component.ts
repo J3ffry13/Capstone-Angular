@@ -27,6 +27,7 @@ export class IngresosVSegresosReportComponent implements OnInit {
     listadoResultIngresos: any[] = [];
     listadoResultEgresos: any[] = [];
     listTipoDoccbo: any[] = [];
+    pageSizeOptions: any[] = [20, 30, 40, 50];
     listTipoContcbo: any[] = [];
     customColumns: any[] = [];
     loading = false;
