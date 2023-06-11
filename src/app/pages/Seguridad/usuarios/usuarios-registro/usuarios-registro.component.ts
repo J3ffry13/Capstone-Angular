@@ -10,9 +10,7 @@ import {OnInit} from '@angular/core';
 import {LoginService} from '@services/login.service';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {AsignacionLaboresService} from '@services/procesos/asignacionLabores.service';
 import {UtilsService} from '@services/utils/utils.service';
-import moment from 'moment';
 import {UsuarioModel} from '@/Models/seguridad/UsuarioModel.model';
 import {Observable, map, startWith} from 'rxjs';
 import {ConfirmActionComponent} from '@components/crud/confirm-action/confirm-action.component';
@@ -42,11 +40,11 @@ export class UsuariosRegistroComponent implements OnInit, AfterViewInit {
         public dialogRef: MatDialogRef<UsuariosRegistroComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         public dialog: MatDialog,
-        private loginService: LoginService,
-        private utilsService: UtilsService,
-        private usuarioService: UsuarioService,
-        private fb: FormBuilder,
-        private _snackBar: MatSnackBar
+        public loginService: LoginService,
+        public utilsService: UtilsService,
+        public usuarioService: UsuarioService,
+        public fb: FormBuilder,
+        public _snackBar: MatSnackBar
     ) {}
 
     ngOnInit() {
@@ -144,7 +142,7 @@ export class UsuariosRegistroComponent implements OnInit, AfterViewInit {
         }
     }
 
-    private _filter(x: any): any[] {
+    _filter(x: any): any[] {
         const filterValue = x.toLowerCase();
         return this.listPersonasCbo.filter((y) =>
             y.dni.toLowerCase().includes(filterValue)

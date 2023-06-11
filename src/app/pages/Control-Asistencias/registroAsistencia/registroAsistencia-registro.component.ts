@@ -4,7 +4,6 @@ import {OnInit} from '@angular/core';
 import {LoginService} from '@services/login.service';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {ActivatedRoute, Router} from '@angular/router';
 import {PersonaModel} from '@/Models/configuracion/PersonaModel.model';
 import {Storage, ref, getDownloadURL} from '@angular/fire/storage';
 import {RegistroAsistenciasService} from '@services/asistencias/registroAsistencias.service';
@@ -45,8 +44,6 @@ export class RegistroAsistenciaRegistroComponent implements OnInit {
         private loginService: LoginService,
         private fb: FormBuilder,
         private ref: ChangeDetectorRef,
-        private activatedRoute: ActivatedRoute,
-        private router: Router,
         private _snackBar: MatSnackBar,
         private registroAsistenciasService: RegistroAsistenciasService,
         private storage: Storage
@@ -62,7 +59,6 @@ export class RegistroAsistenciaRegistroComponent implements OnInit {
     }
 
     buscarTrabajador() {
-        console.log('sdf');
         this.load = true;
         this.registroAsistenciasService
             .obtenerTrabajador$({

@@ -33,10 +33,10 @@ export class ActividadesRegistroComponent implements OnInit {
     constructor(
         public dialogRef: MatDialogRef<ActividadesRegistroComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private loginService: LoginService,
-        private actividadService: ActividadesService,
-        private fb: FormBuilder,
-        private _snackBar: MatSnackBar
+        public loginService: LoginService,
+        public actividadService: ActividadesService,
+        public fb: FormBuilder,
+        public _snackBar: MatSnackBar
     ) {}
 
 
@@ -49,15 +49,14 @@ export class ActividadesRegistroComponent implements OnInit {
 
     createForm() {
         this.registroForm = this.fb.group({
-            codigo: new FormControl(this.registro.codigo + '', [
+            codigo: [this.registro.codigo + '', [
                 Validators.required,
                 Validators.min(3)
-            ]),
-            nombre: new FormControl(
-                this.registro.nombre + '',
+            ]],
+            nombre: [this.registro.nombre + '',
                 Validators.required
-            ),
-            estado: new FormControl(this.registro.estado)
+        ],
+            estado: [this.registro.estado]
         });
         this.loading = false;
     }

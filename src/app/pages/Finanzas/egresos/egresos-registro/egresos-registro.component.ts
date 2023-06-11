@@ -34,9 +34,9 @@ export class EgresosRegistroComponent implements OnInit {
         public dialogRef: MatDialogRef<EgresosRegistroComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private loginService: LoginService,
-        private egresosService: EgresosService,
-        private fb: FormBuilder,
-        private _snackBar: MatSnackBar
+        public egresosService: EgresosService,
+        public fb: FormBuilder,
+        public _snackBar: MatSnackBar
     ) {}
 
 

@@ -25,6 +25,7 @@ import {ActividadesReportComponent} from '@pages/Reportes/actividades-report/act
 import {UsuariosListadoComponent} from '@pages/Seguridad/usuarios/usuarios-listado/usuarios-listado.component';
 import {PerfilWebListadoComponent} from '@pages/Seguridad/perfilWeb/perfil-web-listado/perfil-web-listado.component';
 import {PerfilWebRegistroComponent} from '@pages/Seguridad/perfilWeb/perfil-web-registro/perfil-web-registro.component';
+import { TrabajadorContratoComponent } from '@pages/Configuracion/trabajadores/trabajadorContrato/trabajador-contrato.component';
 
 const routes: Routes = [
     {

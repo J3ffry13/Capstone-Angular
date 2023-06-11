@@ -36,15 +36,15 @@ export class TrabajadoresListadoComponent implements OnInit, AfterViewInit {
     @ViewChild(MatSort) sort: MatSort;
 
     constructor(
-        private ref: ChangeDetectorRef,
-        private trabajadorService: TrabajadoresService,
-        private loginService: LoginService,
-        private router: Router,
-        private excelService: ExcelService,
+        public ref: ChangeDetectorRef,
+        public trabajadorService: TrabajadoresService,
+        public loginService: LoginService,
+        public router: Router,
+        public excelService: ExcelService,
         public dialog: MatDialog,
-        private utilsService: UtilsService,
-        private _snackBar: MatSnackBar,
-        private formBuilder: FormBuilder,
+        public utilsService: UtilsService,
+        public _snackBar: MatSnackBar,
+        public formBuilder: FormBuilder,
     ) {}
 
     ngOnInit() {

@@ -1,4 +1,4 @@
 export class CurrentUser{
+    idUsuario?: number;
     usuarioNombre: string;
-    idUsuario: number;
 }

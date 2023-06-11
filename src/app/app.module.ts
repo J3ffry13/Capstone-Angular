@@ -151,6 +151,12 @@ registerLocaleData(localeEn, 'es-ES');
         UsuariosRegistroComponent,
     ],
     imports: [
+        // TrabajadorContratoComponent,
+        // ActividadesRegistroComponent,
+        // AsignacionLaboresRegistroComponent,
+        // IngresosRegistroComponent,
+        // EgresosRegistroComponent,
+        // UsuariosRegistroComponent,
         NgxPermissionsModule.forRoot(),
         BrowserModule,
         FullCalendarModule,
