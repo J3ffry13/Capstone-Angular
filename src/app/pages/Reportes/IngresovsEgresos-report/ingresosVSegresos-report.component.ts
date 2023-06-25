@@ -37,6 +37,8 @@ export class IngresosVSegresosReportComponent implements OnInit {
     @ViewChild(MatSort) sortIngre: MatSort;
     @ViewChild(MatPaginator) paginatorEgre: MatPaginator;
     @ViewChild(MatSort) sortEgre: MatSort;
+    totalIngresos: number = 0
+    totalEgresos: number = 0
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -87,8 +89,13 @@ export class IngresosVSegresosReportComponent implements OnInit {
                 )
             })
             .subscribe((result) => {
+                this.totalEgresos = 0
+                this.totalIngresos = 0
                 this.listadoResultIngresos = result[0];
                 this.listadoResultEgresos = result[1];
+                this.totalEgresos = this.listadoResultEgresos.reduce((total, x) => total + x.monto, 0);
+                this.totalIngresos = this.listadoResultIngresos.reduce((total, x) => total + x.monto, 0);
+
                 this.refreshLista();
                 this.loading = false;
                 this.loadingData = false;

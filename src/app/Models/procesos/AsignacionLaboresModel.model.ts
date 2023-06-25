@@ -11,6 +11,9 @@ export class AsignacionLaboresModel {
     inicio: string;
     final: string;
     fecha: string;
+    estado: boolean;
+    latitud: string;
+    longitud: string;
     login: string;
     accion: number;
 
@@ -27,6 +30,9 @@ export class AsignacionLaboresModel {
         this.inicio = '';
         this.final = '';
         this.backgroundColor = '';
+        this.estado = false;
+        this.latitud = '';
+        this.longitud = '';
         this.login = '';
         this.accion = 0;
     }

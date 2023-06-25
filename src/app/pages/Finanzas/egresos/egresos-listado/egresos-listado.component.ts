@@ -14,6 +14,7 @@ import moment from 'moment';
 import { EgresosService } from '@services/finanzas/egresos.service';
 import { EgresosModel } from '@/Models/finanzas/EgresosModel.model';
 import { EgresosRegistroComponent } from '../egresos-registro/egresos-registro.component';
+import * as Highcharts from 'highcharts';
 
 @Component({
     selector: 'app-egresos-listado',
@@ -32,6 +33,50 @@ export class EgresosListadoComponent implements OnInit {
     formGroupFiltros: FormGroup;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
+
+    highcharts = Highcharts;
+    chart: any;
+    chartCallback: any;
+    updateFromInput = false;
+    chartOptionsEgresos: Highcharts.Options = {
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: 'EGRESOS',
+            style: {
+                fontFamily: 'Poppins, Helvetica, sans-serif',
+                fontSize: '25',
+                fontWeight: '10'
+            }
+        },
+        xAxis: {
+            // categories: [],
+            crosshair: true,
+            title: {
+                text: 'Fecha'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Cantidad'
+            }
+        },
+        tooltip: {
+            pointFormat: 'Total: <b>{point.y} </b>'
+        },
+        plotOptions: {
+            series: {
+                marker: {
+                    enabled: true,
+                    radius: 2.5
+                }
+            }
+        },
+        colors: ['#fa4b42', '#fe6a35'],
+        series: []
+    };
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -75,8 +120,10 @@ export class EgresosListadoComponent implements OnInit {
                 fechaFin: moment(controls['fechaFin'].value).format('YYYY-MM-DD')
             })
             .subscribe((result) => {
-                this.listadoResult = result;
+                this.listadoResult = result[0];
                 this.refreshLista();
+                this.generarGraficoEgresos(result[1]);
+                this.updateFromInput = true;
                 this.loading = false;
                 this.loadingData = false;
             });
@@ -178,6 +225,24 @@ export class EgresosListadoComponent implements OnInit {
         this.displayedColumns = this.customColumns.map(
             (column: any) => column.name
         );
+    }
+
+    generarGraficoEgresos(listado: any) {
+        var series = [];
+        var xname = [];
+        let datax = {
+            data: [],
+            name: 'Egresos',
+            type: 'spline'
+        };
+        listado.forEach((x) => {
+            xname.push(x.name);
+            datax.data.push([x.name, x.valor]);
+        });
+        console.log(datax);
+        series.push(datax);
+        this.chartOptionsEgresos.series = series;
+        this.chartOptionsEgresos.xAxis['categories'] = xname;
     }
 
     exportarDatos() {

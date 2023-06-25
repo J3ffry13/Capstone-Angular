@@ -38,32 +38,34 @@
           <div class="col-12">
             <div class="row">
               <div class="col-4">
-              <form [formGroup]="formGroupFiltros" >
-                <div class="row">
-              <div class="col-6">
-                <mat-form-field appearance="fill">
-                  <mat-label>Fecha Inicio</mat-label>
-                  <input matInput [matDatepicker]="pickerIni" placeholder="Fecha Inicio" formControlName="fechaIni" [max]="maxDate"/>
-                  <mat-datepicker-toggle matIconSuffix [for]="pickerIni">
-                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                  </mat-datepicker-toggle>
-                  <mat-datepicker #pickerIni></mat-datepicker>
-                  <mat-hint><strong>Filtro</strong> Fecha Inicio</mat-hint>
-                </mat-form-field>
-              </div>
-              <div class="col-6">
-                <mat-form-field appearance="fill">
-                  <mat-label>Fecha Fin</mat-label>
-                  <input matInput [matDatepicker]="pickerFin" placeholder="Fecha Fin" formControlName="fechaFin" [max]="maxDate"/>
-                  <mat-datepicker-toggle matIconSuffix [for]="pickerFin">
-                    <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                  </mat-datepicker-toggle>
-                  <mat-datepicker #pickerFin></mat-datepicker>
-                  <mat-hint><strong>Filtro</strong> Fecha Fin</mat-hint>
-                </mat-form-field>
-              </div>
-                </div>
-              </form>
+                <form [formGroup]="formGroupFiltros">
+                  <div class="row">
+                    <div class="col-6">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Fecha Inicio</mat-label>
+                        <input matInput [matDatepicker]="pickerIni" placeholder="Fecha Inicio"
+                          formControlName="fechaIni" [max]="maxDate" />
+                        <mat-datepicker-toggle matIconSuffix [for]="pickerIni">
+                          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #pickerIni></mat-datepicker>
+                        <mat-hint><strong>Filtro</strong> Fecha Inicio</mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Fecha Fin</mat-label>
+                        <input matInput [matDatepicker]="pickerFin" placeholder="Fecha Fin" formControlName="fechaFin"
+                          [max]="maxDate" />
+                        <mat-datepicker-toggle matIconSuffix [for]="pickerFin">
+                          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #pickerFin></mat-datepicker>
+                        <mat-hint><strong>Filtro</strong> Fecha Fin</mat-hint>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </form>
               </div>
               <div class="col-2" align="start">
                 <div class="row inputs">
@@ -106,7 +108,16 @@
         </div>
         <div class="row" *ngIf="listadoResult.length !== 0;">
           <div class="col-sm-12">
-            <div class="mat-elevation-z8">
+            <div
+              style="background-color: rgb(231, 231, 231); border-radius: 10px;align-items: center;text-align: center; width: 100%; height: 350px; margin-bottom: 20px;">
+              <highcharts-chart id="columOptionsTrabjadores" [Highcharts]="highcharts" [options]="chartOptionsIngresos"
+                [callbackFunction]="chartCallback" [(update)]="updateFromInput" [oneToOne]="true"
+                style="width: 100%; height: 100%; display: block;margin: auto;">
+              </highcharts-chart>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="example-container mat-elevation-z8">
               <table mat-table [dataSource]="dataSource" matSort>
                 <ng-container *ngFor="let column of customColumns; let colIndex = index"
                   matColumnDef="{{ column.name }}">
@@ -115,7 +126,7 @@
                     <ng-container *ngIf="column.name !== 'actions'; else colActions">
                       <ng-container *ngIf="!column.esFlag">
                         <td mat-cell>{{ element[column.name] }}</td>
-                      </ng-container>              
+                      </ng-container>
                     </ng-container>
                     <ng-template #colActions>
                       <td mat-cell>

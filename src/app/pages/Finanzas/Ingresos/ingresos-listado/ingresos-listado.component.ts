@@ -1,9 +1,4 @@
-import {
-    Component,
-    ViewChild,
-    ChangeDetectorRef,
-    OnInit
-} from '@angular/core';
+import {Component, ViewChild, ChangeDetectorRef, OnInit} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
@@ -19,6 +14,7 @@ import moment from 'moment';
 import {IngresosService} from '@services/finanzas/ingresos.service';
 import {IngresosModel} from '@/Models/finanzas/IngresosModel.model';
 import {IngresosRegistroComponent} from '../ingresos-registro/ingresos-registro.component';
+import * as Highcharts from 'highcharts';
 
 @Component({
     selector: 'app-ingresos-listado',
@@ -37,6 +33,50 @@ export class IngresosListadoComponent implements OnInit {
     formGroupFiltros: FormGroup;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
+
+    highcharts = Highcharts;
+    chart: any;
+    chartCallback: any;
+    updateFromInput = false;
+    chartOptionsIngresos: Highcharts.Options = {
+        chart: {
+            type: 'spline'
+        },
+        title: {
+            text: 'INGRESOS',
+            style: {
+                fontFamily: 'Poppins, Helvetica, sans-serif',
+                fontSize: '25',
+                fontWeight: '10'
+            }
+        },
+        xAxis: {
+            // categories: [],
+            crosshair: true,
+            title: {
+                text: 'Fecha'
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Cantidad'
+            }
+        },
+        tooltip: {
+            pointFormat: 'Total: <b>{point.y} </b>'
+        },
+        plotOptions: {
+            series: {
+                marker: {
+                    enabled: true,
+                    radius: 2.5
+                }
+            }
+        },
+        colors: ['#00e272', '#2caffe'],
+        series: []
+    };
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -84,8 +124,11 @@ export class IngresosListadoComponent implements OnInit {
                 )
             })
             .subscribe((result) => {
-                this.listadoResult = result;
+                console.log(result);
+                this.listadoResult = result[0];
                 this.refreshLista();
+                this.generarGraficoIngresos(result[1]);
+                this.updateFromInput = true;
                 this.loading = false;
                 this.loadingData = false;
             });
@@ -189,6 +232,24 @@ export class IngresosListadoComponent implements OnInit {
         );
     }
 
+    generarGraficoIngresos(listado: any) {
+        var series = [];
+        var xname = [];
+        let datax = {
+            data: [],
+            name: 'Ingresos',
+            type: 'spline'
+        };
+        listado.forEach((x) => {
+            xname.push(x.name);
+            datax.data.push([x.name, x.valor]);
+        });
+        console.log(datax);
+        series.push(datax);
+        this.chartOptionsIngresos.series = series;
+        this.chartOptionsIngresos.xAxis['categories'] = xname;
+    }
+
     exportarDatos() {
         this.asyncAction(this.listadoResult)
             .then(() => {
@@ -200,7 +261,7 @@ export class IngresosListadoComponent implements OnInit {
     }
 
     asyncAction(listaDatos: any[]) {
-        let data = listaDatos;      
+        let data = listaDatos;
         const promise = new Promise((resolve, reject) => {
             try {
                 setTimeout(() => {

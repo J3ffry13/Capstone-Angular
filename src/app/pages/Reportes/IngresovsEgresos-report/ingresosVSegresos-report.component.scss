@@ -32,6 +32,18 @@ button {
     // width: 60PX;
     color: #ffffff; 
 }
+
+.title {
+	width: 100%;
+	align-items: center;
+	text-align: center;
+	font-size: 30px;
+	font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+	margin-bottom: 20px;
+	// text-decoration: underline;
+}
+
 mat-form-field {
 	width: 100%;
 }

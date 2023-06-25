@@ -62,6 +62,13 @@ import {TrabajadoresListadoComponent} from '@pages/Configuracion/trabajadores/tr
 import {TrabajadoresRegistroComponent} from '@pages/Configuracion/trabajadores/trabajadoresRegistro/trabajadores-registro.component';
 import {initializeApp, provideFirebaseApp} from '@angular/fire/app';
 import {provideStorage} from '@angular/fire/storage';
+
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+
+
+
+
 import {getStorage} from 'firebase/storage';
 import {
     DateAdapter,
@@ -196,6 +203,9 @@ registerLocaleData(localeEn, 'es-ES');
         MatTreeModule,
         provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
         provideStorage(() => getStorage()),
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFirestoreModule,
+        // provideFirestore(() => getFirestore()),
         HighchartsChartModule
     ],
     providers: [

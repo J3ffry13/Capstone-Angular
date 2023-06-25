@@ -4,7 +4,6 @@ table {
 
 td,
 th {
-    // width: 25%;
     align-items: center;
     text-align: center;
 }
@@ -18,7 +17,6 @@ button {
 .badge-p {
     font-size: 15px; 
     font-family: Calibri; 
-    // width: 60PX;
     color: #000000; 
 }
 
@@ -45,3 +43,11 @@ table {
 mat-hint {
     font-size: 12px;
 }
+
+.example-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+    overflow-x: auto;
+}
+

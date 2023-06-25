@@ -96,7 +96,7 @@ export const MENU = [
         ]
     },
     {
-        name: 'FINANZAS',
+        name: 'INGRESOS - EGRESOS',
         iconClasses: 'fas fa-donate',     
         permission: 'accessToFinanceModule',
         children: [

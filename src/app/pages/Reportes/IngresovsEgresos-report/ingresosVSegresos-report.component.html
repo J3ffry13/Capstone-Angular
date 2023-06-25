@@ -89,6 +89,9 @@
         <div class="row" *ngIf="listadoResultIngresos.length !== 0;">
           <div class="col-sm-6">
             <div class="row mb-2">
+              <div class="col-12 title">
+                Total : {{ totalIngresos }}
+              </div>
               <div class="col-sm-4"><mat-form-field appearance="fill">
                   <input matInput placeholder="Fitrado Rápido" (keyup)="applyFilterGlobalIngre($event.target['value'])"
                     [disabled]="listadoResultIngresos.length === 0" />
@@ -117,6 +120,9 @@
           </div>
           <div class="col-sm-6">
             <div class="row mb-2">
+              <div class="col-12 title">
+                Total : {{ totalEgresos }}
+              </div>
               <div class="col-sm-4"><mat-form-field appearance="fill">
                   <input matInput placeholder="Fitrado Rápido" (keyup)="applyFilterGlobalEgre($event.target['value'])"
                     [disabled]="listadoResultEgresos.length === 0" />
@@ -140,8 +146,8 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
 
-              <mat-paginator [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true" [length]="listadoResultEgresos.length"
-                style="background-color: rgb(253, 180, 166);">
+              <mat-paginator [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true"
+                [length]="listadoResultEgresos.length" style="background-color: rgb(253, 180, 166);">
               </mat-paginator>
             </div>
           </div>

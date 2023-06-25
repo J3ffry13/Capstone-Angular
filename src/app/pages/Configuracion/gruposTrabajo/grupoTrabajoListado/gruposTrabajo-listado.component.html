@@ -77,7 +77,7 @@
         </div>
         <div class="row" *ngIf="listadoResult.length !== 0;">
           <div class="col-sm-12">
-            <div class="mat-elevation-z8">
+            <div class="example-container mat-elevation-z8">
               <table mat-table [dataSource]="dataSource" matSort>
                 <ng-container *ngFor="let column of customColumns; let colIndex = index"
                   matColumnDef="{{ column.name }}">
