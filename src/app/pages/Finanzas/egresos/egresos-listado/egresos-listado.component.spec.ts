@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ExcelService } from '@services/excel.service';
-import { LoginService } from '@services/login.service';
+import { LoginService } from '@services/auth/login.service';
 import { EgresosService } from '@services/finanzas/egresos.service';
 import { EgresosModel } from '@/Models/finanzas/EgresosModel.model';
 import { EgresosRegistroComponent } from '../egresos-registro/egresos-registro.component';

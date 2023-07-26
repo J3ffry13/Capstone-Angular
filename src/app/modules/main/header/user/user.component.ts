@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
-import { LoginService } from '@services/login.service';
+import { LoginService } from '@services/auth/login.service';
 import {DateTime} from 'luxon';
 
 @Component({
@@ -11,16 +12,16 @@ import {DateTime} from 'luxon';
 export class UserComponent implements OnInit {
     public user;
 
-    constructor(private loginService: LoginService,
+    constructor(private afAuth: AngularFireAuth,
         private router: Router) {}
 
     ngOnInit(): void {
-        this.user = this.loginService.getTokenDecoded();
+        this.user = 'admin'//this.loginService.getTokenDecoded();
     }
 
     logout() {
-        this.loginService.removeLocalStorge();
-        this.router.navigate(['/login']);
+        localStorage.removeItem('user');
+        this.afAuth.signOut().then(() => this.router.navigate(['/auth/login']));
     }
 
     formatDate(date) {

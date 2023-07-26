@@ -2,7 +2,7 @@ import {Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {LoginService} from '@services/login.service';
+import {LoginService} from '@services/auth/login.service';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {TrabajadorModel} from '@/Models/configuracion/TrabajadorModel.model';
@@ -52,7 +52,7 @@ export class TrabajadorContratoComponent implements OnInit {
         this.registro = this.data.registro;
         this.registro.urlDocumentoAnterior = this.registro.urlDocumento;
         this.listTipoContcbo = this.data.listTipoContcbo;
-        this.user = this.loginService.getTokenDecoded();
+        // this.user = this.loginService.getTokenDecoded();
         this.createForm();
     }
 

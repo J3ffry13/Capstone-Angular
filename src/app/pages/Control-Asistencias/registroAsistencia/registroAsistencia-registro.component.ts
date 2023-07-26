@@ -1,7 +1,7 @@
 import {Component, ChangeDetectorRef, inject} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {OnInit} from '@angular/core';
-import {LoginService} from '@services/login.service';
+import {LoginService} from '@services/auth/login.service';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {PersonaModel} from '@/Models/configuracion/PersonaModel.model';
@@ -62,7 +62,7 @@ export class RegistroAsistenciaRegistroComponent implements OnInit {
 
     ngOnInit() {
         this.loading = true;
-        this.user = this.loginService.getTokenDecoded();
+        // this.user = this.loginService.getTokenDecoded();
         this.createForm();
         this.updateFecha();
         setInterval(() => this.updateFecha(), 120000); // 2 min
@@ -220,7 +220,7 @@ export class RegistroAsistenciaRegistroComponent implements OnInit {
             registroDatos.idRegAsistencia = 0;
             registroDatos.idPersona = this.persona.idPersona;
             registroDatos.accion = 1;
-            registroDatos.login = this.user.usuarioNombre;
+            registroDatos.login = this.user.email;
             this.registroAsistenciasService
                 .crea_edita_RegistroAsistencia$({
                     registroDatos

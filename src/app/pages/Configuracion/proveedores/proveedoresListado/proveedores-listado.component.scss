@@ -15,27 +15,26 @@ button {
     font-size: 20px;
 }
 .badge-p {
-    font-size: 15px; 
-    font-family: Calibri; 
-    color: #000000; 
+    font-size: 15px;
+    font-family: Calibri;
+    color: #000000;
 }
-
 
 .example-container {
     display: flex;
     flex-direction: column;
     min-width: 300px;
-  }
-  
-  .mat-f {
+}
+
+.mat-f {
     width: 100%;
     overflow-x: hidden;
-  }
-  
+}
+
 table {
     overflow: auto;
     overflow-x: auto;
-  }
+}
 
 ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
     background-color: #fff;
@@ -50,4 +49,3 @@ mat-hint {
     overflow: auto;
     overflow-x: auto;
 }
-

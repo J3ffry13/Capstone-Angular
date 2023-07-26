@@ -7,10 +7,12 @@ import {
 } from '@angular/core';
 import {UntypedFormGroup, UntypedFormControl, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
-import {LoginService} from '@services/login.service';
 import {Router} from '@angular/router';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {NgxPermissionsService} from 'ngx-permissions';
+import {AngularFireAuth} from '@angular/fire/compat/auth';
+import {FirebaseCodeErrorService} from '@services/firebase-code-error.service';
+import { LoginService } from '@services/auth/login.service';
 
 @Component({
     selector: 'app-login',
@@ -27,7 +29,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         private toastr: ToastrService,
         private router: Router,
         private loginService: LoginService,
-        private permissionsService: NgxPermissionsService
+        private permissionsService: NgxPermissionsService,
+        private afAuth: AngularFireAuth,
+        private firebaseError: FirebaseCodeErrorService
     ) {}
 
     ngOnInit() {
@@ -45,47 +49,29 @@ export class LoginComponent implements OnInit, OnDestroy {
         };
         usuario.user = this.loginForm.value.email;
         usuario.password = this.loginForm.value.password;
-        this.loginService.login(usuario).subscribe(
-            (data) => {
-                if (data['token']) {
-                    localStorage.setItem('token', data['token']);
-                    this.user = this.loginService.getTokenDecoded();
-                    this.loginService
-                        .getPermissions({user: this.user.idUsuario})
-                        .subscribe(
-                            (result) => {
-                                let data = [];
-                                result.forEach((x) => {
-                                    data.push(x.accesoName);
-                                });
-                                this.permissionsService.loadPermissions(data);
-                                this.router.navigate(['/']);
-                                this.isAuthLoading = false;
-                            },
-                            (error) => {
-                                console.log(error);
-                                this.isAuthLoading = false;
-                                this.toastr.error(error.error.message, 'Error');
-                                this.loginForm.reset();
-                            }
-                        );
+
+        //ENVIO DATOS A FIREBASE
+        this.afAuth
+            .signInWithEmailAndPassword(usuario.user, usuario.password)
+            .then((user) => {
+                if (user.user?.emailVerified) {
+                    localStorage.setItem('user', usuario.user);
+                    this.router.navigate(['/configuracion/trabajadores']);
                 } else {
-                    this.toastr.error('Error', 'Error xd');
+                    //   this.router.navigate(['/verificar-correo']);
+                    this.toastr.warning('Le falta verificar su correo', 'Advertencia');
                 }
-            },
-            (error) => {
-                console.log(error);
                 this.isAuthLoading = false;
-                this.toastr.error(error.error.message, 'Error');
-                this.loginForm.reset();
-            }
-        );
+            })
+            .catch((error) => {
+                this.isAuthLoading = false;
+                this.toastr.error(
+                    this.firebaseError.codeError(error.code),
+                    'Error'
+                );
+            });
     }
 
     ngOnDestroy() {
-        // this.renderer.removeClass(
-        //     document.querySelector('app-root'),
-        //     'login-page'
-        // );
     }
 }

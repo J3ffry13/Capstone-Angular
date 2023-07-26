@@ -18,7 +18,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {MessagesComponent} from '@modules/main/header/messages/messages.component';
 import {NotificationsComponent} from '@modules/main/header/notifications/notifications.component';
 
-import {NgOptimizedImage, registerLocaleData} from '@angular/common';
+import {CommonModule, NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeEn from '@angular/common/locales/en';
 import {UserComponent} from '@modules/main/header/user/user.component';
 import {ForgotPasswordComponent} from '@modules/forgot-password/forgot-password.component';
@@ -76,11 +76,6 @@ import {
     MAT_DATE_LOCALE
 } from '@angular/material/core';
 import {MY_FORMATS_DDMMYYY} from './utils/format-datepicker';
-import {TrabajadorContratoComponent} from '@pages/Configuracion/trabajadores/trabajadorContrato/trabajador-contrato.component';
-import {GrupoTrabajoListadoComponent} from '@pages/Configuracion/gruposTrabajo/grupoTrabajoListado/gruposTrabajo-listado.component';
-import {GrupoTrabajoRegistroComponent} from '@pages/Configuracion/gruposTrabajo/grupoTrabajoRegistro/gruposTrabajo-registro.component';
-import {ActividadesListadoComponent} from '@pages/Configuracion/actividades/actividadesListado/actividades-listado.component';
-import {ActividadesRegistroComponent} from '@pages/Configuracion/actividades/actividadesRegistro/actividades-registro.component';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTreeModule} from '@angular/material/tree';
 import {RegistroAsistenciaRegistroComponent} from '@pages/Control-Asistencias/registroAsistencia/registroAsistencia-registro.component';
@@ -103,6 +98,7 @@ import {PerfilWebRegistroComponent} from '@pages/Seguridad/perfilWeb/perfil-web-
 import {UsuariosListadoComponent} from './pages/Seguridad/usuarios/usuarios-listado/usuarios-listado.component';
 import {UsuariosRegistroComponent} from './pages/Seguridad/usuarios/usuarios-registro/usuarios-registro.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { TrabajadorContratoComponent } from '@pages/Configuracion/trabajadores/trabajadorContrato/trabajador-contrato.component';
 
 defineCustomElements();
 registerLocaleData(localeEn, 'es-ES');
@@ -111,7 +107,7 @@ registerLocaleData(localeEn, 'es-ES');
     declarations: [
         AppComponent,
         MainComponent,
-        LoginComponent,
+        // LoginComponent,
         HeaderComponent,
         FooterComponent,
         MenuSidebarComponent,
@@ -133,13 +129,8 @@ registerLocaleData(localeEn, 'es-ES');
         SnackbarComponent,
         LoaderComponent,
         DashboardComponent,
-        TrabajadoresListadoComponent,
         TrabajadoresRegistroComponent,
         TrabajadorContratoComponent,
-        ActividadesListadoComponent,
-        ActividadesRegistroComponent,
-        GrupoTrabajoListadoComponent,
-        GrupoTrabajoRegistroComponent,
         AsignacionLaboresListadoComponent,
         AsignacionLaboresRegistroComponent,
         RegistroAsistenciaRegistroComponent,
@@ -178,6 +169,7 @@ registerLocaleData(localeEn, 'es-ES');
             positionClass: 'toast-top-right',
             preventDuplicates: true
         }),
+        CommonModule,
         ProfabricComponentsModule,
         /////////////////
         MatTableModule,

@@ -3,7 +3,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {OnInit, ViewChild} from '@angular/core';
-import {LoginService} from '@services/login.service';
+import {LoginService} from '@services/auth/login.service';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
@@ -57,7 +57,7 @@ export class AsignacionLaboresRegistroComponent
     ngOnInit() {
         this.loading = true;
         this.registro = this.data.registro;
-        this.user = this.loginService.getTokenDecoded();
+        // this.user = this.loginService.getTokenDecoded();
         this.createForm();
     }
 
@@ -190,7 +190,7 @@ export class AsignacionLaboresRegistroComponent
             registroDatos.latitud = this.miUbicacion._latlng.lat;
             registroDatos.longitud = this.miUbicacion._latlng.lng;
             registroDatos.accion = this.registro.idActividad > 0 ? 2 : 1;
-            registroDatos.login = this.user.usuarioNombre;
+            registroDatos.login = this.user.email;
             this.asigancionLabores
                 .crea_edita_Asignaciones$({
                     registroDatos

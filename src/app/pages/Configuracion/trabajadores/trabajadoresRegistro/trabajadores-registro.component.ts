@@ -7,7 +7,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {OnInit, AfterViewInit} from '@angular/core';
 import moment from 'moment';
 import {map} from 'rxjs/operators';
-import {LoginService} from '@services/login.service';
+import {LoginService} from '@services/auth/login.service';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
@@ -89,7 +89,7 @@ export class TrabajadoresRegistroComponent implements OnInit, AfterViewInit {
                     this.router.navigate(['masters/workers']);
                 }
             });
-        this.user = this.loginService.getTokenDecoded();
+        // this.user = this.loginService.getTokenDecoded();
         this.renderColumns();
         this.createForm();
     }
@@ -338,7 +338,7 @@ export class TrabajadoresRegistroComponent implements OnInit, AfterViewInit {
         registroDatos.f_nacimiento = moment(this.registroForm.getRawValue().f_nacimiento).format('YYYY-MM-DD');
         registroDatos.idPersona = this.registro.idPersona;
         registroDatos.accion = this.registro.idPersona > 0 ? 2 : 1;
-        registroDatos.login = this.user.usuarioNombre;
+        registroDatos.login = this.user.email;
         registroDatos.urlImagen = this.registro.urlImagen
         this.listadoResult.forEach(x => {
             if (x.f_inicio !== null){

@@ -3,7 +3,7 @@ import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {OnInit} from '@angular/core';
-import {LoginService} from '@services/login.service';
+import {LoginService} from '@services/auth/login.service';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
@@ -43,7 +43,7 @@ export class IngresosRegistroComponent implements OnInit {
     ngOnInit() {
         this.loading = true;
         this.registro = this.data.registro;
-        this.user = this.loginService.getTokenDecoded();
+        // this.user = this.loginService.getTokenDecoded();
         this.createForm();
     }
 
@@ -76,7 +76,7 @@ export class IngresosRegistroComponent implements OnInit {
         registroDatos.fecha = moment(this.registroForm.getRawValue().fecha).format('YYYY-MM-DD');
         registroDatos.idIngresos = this.registro.idIngresos;
         registroDatos.accion = this.registro.idIngresos > 0 ? 2 : 1;
-        registroDatos.login = this.user.usuarioNombre
+        registroDatos.login = this.user.email
         this.ingresosService
             .crea_edita_Ingresos$({
                 registroDatos

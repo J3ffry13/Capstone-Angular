@@ -5,7 +5,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {OnInit, AfterViewInit} from '@angular/core';
 import moment from 'moment';
 import {map} from 'rxjs/operators';
-import {LoginService} from '@services/login.service';
+import {LoginService} from '@services/auth/login.service';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
@@ -91,7 +91,7 @@ export class PerfilWebRegistroComponent implements OnInit, AfterViewInit {
                     this.router.navigate(['security/webprofiles']);
                 }
             });
-        this.user = this.loginService.getTokenDecoded();
+        // this.user = this.loginService.getTokenDecoded();
         this.createForm();
         this.loading = false;
     }
@@ -145,7 +145,7 @@ export class PerfilWebRegistroComponent implements OnInit, AfterViewInit {
           registroDatos = this.registroForm.getRawValue();
           registroDatos.idPerfilWeb = this.registro.idPerfilWeb;
           registroDatos.accion = this.registro.idPerfilWeb > 0 ? 2 : 1;
-          registroDatos.login = this.user.usuarioNombre;
+          registroDatos.login = this.user.email;
           let data = []
           this.listadoAll.forEach(x => {
               let sub = x.subtasks.filter((y) => y.completed == true)

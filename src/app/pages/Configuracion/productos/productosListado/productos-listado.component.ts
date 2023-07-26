@@ -1,51 +1,48 @@
-import {
-    Component,
-    ViewChild,
-    ChangeDetectorRef,
-    OnInit
-} from '@angular/core';
+import {Component, ViewChild, ChangeDetectorRef, OnInit} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {ExcelService} from '@services/excel.service';
 import {MatDialog} from '@angular/material/dialog';
 import {CurrentUser} from '@/Models/auth/auth.model';
-import {LoginService} from '@services/login.service';
+import {LoginService} from '@services/auth/login.service';
 import {ConfirmActionComponent} from '@components/crud/confirm-action/confirm-action.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
-import {ActividadesService} from '@services/configuracion/actividades.service';
-import {ActividadModel} from '@/Models/configuracion/ActividadModel.model';
-import {ActividadesRegistroComponent} from '../actividadesRegistro/actividades-registro.component';
+import { ProductosRegistroComponent } from '../productosRegistro/productos-registro.component';
+import { ProductosService } from '@services/configuracion/productos.service';
+import { ProductoModel } from '@/Models/configuracion/ProductoModel.model';
 
 @Component({
-    selector: 'app-actividades-listado',
-    templateUrl: './actividades-listado.component.html',
-    styleUrls: ['./actividades-listado.component.scss']
+    selector: 'app-productos-listado',
+    templateUrl: './productos-listado.component.html',
+    styleUrls: ['./productos-listado.component.scss']
 })
-export class ActividadesListadoComponent implements OnInit {
+export class ProductosListadoComponent implements OnInit {
     displayedColumns: string[] = [];
     dataSource: MatTableDataSource<any>;
-    listadoResult: any[] = [];
+    listadoResult: ProductoModel[] = [];
     customColumns: any[] = [];
     loading = false;
     loadingData = false;
-    user: CurrentUser;
+    user = new CurrentUser();
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
+    users: string | null = null;
+
     constructor(
         private ref: ChangeDetectorRef,
-        private actividadesService: ActividadesService,
+        private productosService: ProductosService,
         private loginService: LoginService,
         private excelService: ExcelService,
         public dialog: MatDialog,
         private _snackBar: MatSnackBar
     ) {}
 
-    ngOnInit() {
+    async ngOnInit() {
         this.loading = true;
-        this.user = this.loginService.getTokenDecoded();
+        this.user.email = await this.loginService.getUser();
         this.renderColumns();
         this.cargarListaDatos();
     }
@@ -60,31 +57,37 @@ export class ActividadesListadoComponent implements OnInit {
 
     cargarListaDatos() {
         this.loadingData = true;
-        this.actividadesService.listarActividades$({}).subscribe((result) => {
-            this.listadoResult = result;
+        this.productosService.listarProductos().subscribe((result) => {
+            this.listadoResult = [];
+            result.forEach((element) => {
+                this.listadoResult.push({
+                    idProducto: element.payload.doc.id,
+                    ...element.payload.doc.data()
+                });
+            });
             this.refreshLista();
             this.loading = false;
             this.loadingData = false;
         });
-        this.loadingData = false;
     }
 
     nuevo() {
-        const registro = new ActividadModel();
+        const registro = new ProductoModel();
         registro.clean();
-        this.openDialog(registro);
+        this.openDialog(registro, 1);
     }
 
-    edit(registro: ActividadModel) {
-        this.openDialog(registro);
+    edit(registro: ProductoModel) {
+        this.openDialog(registro, 2);
     }
 
     delete(registro: any) {
-        let registroDatos: ActividadModel = new ActividadModel();
+        let registroDatos: ProductoModel = new ProductoModel();
         registroDatos.clean();
-        registroDatos.idActividad = registro.idActividad;
-        registroDatos.accion = 3;
-        registroDatos.login = this.user.usuarioNombre;
+        registroDatos = registro;
+        registroDatos.status = false;
+        registroDatos.status = false;
+        registroDatos.login_up = this.user.email;
 
         const dialogRef = this.dialog.open(ConfirmActionComponent, {
             data: {
@@ -94,12 +97,10 @@ export class ActividadesListadoComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe((result) => {
             if (result == 'ok' && result != undefined) {
-                this.actividadesService
-                    .elimina_Actividades$({
-                        registroDatos
-                    })
-                    .subscribe((result) => {
-                        let message = result[0];
+                this.productosService
+                    .editar_Productos(registroDatos.idProducto, registroDatos)
+                    .then(() => {
+                        let message = 'Producto Eliminado con Éxito';
                         this._snackBar.openFromComponent(SnackbarComponent, {
                             duration: 3 * 1000,
                             data: message['']
@@ -110,9 +111,9 @@ export class ActividadesListadoComponent implements OnInit {
         });
     }
 
-    openDialog(registro: ActividadModel) {
-        const dialogRef = this.dialog.open(ActividadesRegistroComponent, {
-            data: {registro}
+    openDialog(registro: ProductoModel, accion: number) {
+        const dialogRef = this.dialog.open(ProductosRegistroComponent, {
+            data: {registro, accion}
         });
 
         dialogRef.afterClosed().subscribe((result) => {
@@ -131,12 +132,6 @@ export class ActividadesListadoComponent implements OnInit {
     renderColumns() {
         this.customColumns = [
             {
-                name: 'nro',
-                label: 'NRO',
-                esFlag: false,
-                width: 'mat-column  mat-column-60  center-cell'
-            },
-            {
                 name: 'codigo',
                 label: 'CODIGO',
                 esFlag: false,
@@ -149,9 +144,21 @@ export class ActividadesListadoComponent implements OnInit {
                 width: 'mat-column mat-column-60  center-cell'
             },
             {
-                name: 'estado',
-                label: 'ESTADO',
-                esFlag: true,
+                name: 'descripcion',
+                label: 'DESCRIPCION',
+                esFlag: false,
+                width: 'mat-column center-cell'
+            },
+            {
+                name: 'precio',
+                label: 'PRECIO',
+                esFlag: false,
+                width: 'mat-column center-cell'
+            },
+            {
+                name: 'stock',
+                label: 'STOCK',
+                esFlag: false,
                 width: 'mat-column center-cell'
             },
             {
@@ -178,9 +185,6 @@ export class ActividadesListadoComponent implements OnInit {
 
     asyncAction(listaDatos: any[]) {
         let data = listaDatos;
-        data.forEach(r => {
-            r['estado'] == 1 ? r['estado'] = 'ACTIVO' : r['estado'] = 'INACTIVO'
-        })   
         const promise = new Promise((resolve, reject) => {
             try {
                 setTimeout(() => {
@@ -189,7 +193,7 @@ export class ActividadesListadoComponent implements OnInit {
                     ];
 
                     this.excelService.exportToExcelGenerico(
-                        'LISTADO DE ACTIVIDADES',
+                        'LISTADO DE PRODUCTOS',
                         'DATA',
                         this.customColumns.filter(
                             (f) =>
@@ -199,13 +203,10 @@ export class ActividadesListadoComponent implements OnInit {
                         ),
                         data,
                         columnsSize,
-                        'ListadoActividades',
+                        'ListadoProductos',
                         true
                     );
                 }, 0);
-                data.forEach(r => {
-                    r['estado'] == 'ACTIVO' ? r['estado'] = true : r['estado'] = false
-                })    
             } catch (e) {
                 reject(e);
             }

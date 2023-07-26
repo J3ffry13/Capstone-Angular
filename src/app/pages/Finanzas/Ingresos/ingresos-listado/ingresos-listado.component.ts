@@ -8,7 +8,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
-import {LoginService} from '@services/login.service';
+import {LoginService} from '@services/auth/login.service';
 import {ConfirmActionComponent} from '@components/crud/confirm-action/confirm-action.component';
 import moment from 'moment';
 import {IngresosService} from '@services/finanzas/ingresos.service';
@@ -90,7 +90,7 @@ export class IngresosListadoComponent implements OnInit {
 
     ngOnInit() {
         this.loading = true;
-        this.user = this.loginService.getTokenDecoded();
+        // this.user = this.loginService.getTokenDecoded();
         this.createFrom();
         this.renderColumns();
         this.cargarListaDatos();
@@ -163,7 +163,7 @@ export class IngresosListadoComponent implements OnInit {
         registroDatos.clean();
         registroDatos.idIngresos = registro.idIngresos;
         registroDatos.accion = 3;
-        registroDatos.login = this.user.usuarioNombre;
+        registroDatos.login = this.user.email;
         const dialogRef = this.dialog.open(ConfirmActionComponent, {
             data: {
                 type: 'Eliminar Registro',

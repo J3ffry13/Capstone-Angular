@@ -5,6 +5,7 @@
   "scripts": {
     "prepare": "husky install",
     "start": "ng serve",
+    "starte": "ng serve --port 5100",
     "add": "ng add",
     "build": "ng build --configuration production",
     "test": "ng test",

@@ -13,7 +13,7 @@ import { TrabajadoresService } from '@services/configuracion/trabajadores.servic
 import { PersonaModel } from '@/Models/configuracion/PersonaModel.model';
 import { Router } from '@angular/router';
 import { UtilsService } from '@services/utils/utils.service';
-import { LoginService } from '@services/login.service';
+import { LoginService } from '@services/auth/login.service';
 import { ConfirmActionComponent } from '@components/crud/confirm-action/confirm-action.component';
 
 @Component({
@@ -49,23 +49,24 @@ export class TrabajadoresListadoComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.loading = true;
-        this.user = this.loginService.getTokenDecoded();
+        // this.user.email = this.loginService.getUser();
+        // // this.user = this.loginService.getTokenDecoded();
         this.createFrom();
         this.renderColumns();
-        this.cargarListaDatos();
+        // this.cargarListaDatos();
     }
 
     ngAfterViewInit(): void {
-        this.utilsService.listadoCombos$({opcion: 1}).subscribe(
-            (result) => {
-                this.listTipoDoccbo = result[0];
-                this.listTipoContcbo = result[1];
-                this.cargarListaDatos();
-            },
-            (error) => {
-                console.log(error);
-            }
-        );
+        // this.utilsService.listadoCombos$({opcion: 1}).subscribe(
+        //     (result) => {
+        //         this.listTipoDoccbo = result[0];
+        //         this.listTipoContcbo = result[1];
+        //         this.cargarListaDatos();
+        //     },
+        //     (error) => {
+        //         console.log(error);
+        //     }
+        // );
     }
 
     createFrom() {
@@ -124,7 +125,7 @@ export class TrabajadoresListadoComponent implements OnInit, AfterViewInit {
         registroDatos.clean();
         registroDatos.idPersona = registro.idPersona;
         registroDatos.accion = 3;
-        registroDatos.login = this.user.usuarioNombre
+        // registroDatos.login = this.user.email
         const dialogRef = this.dialog.open(ConfirmActionComponent, {
             data: {
                 type: 'Eliminar Registro',

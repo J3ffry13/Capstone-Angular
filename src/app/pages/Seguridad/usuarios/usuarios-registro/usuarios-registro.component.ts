@@ -7,7 +7,7 @@ import {
 import {Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {OnInit} from '@angular/core';
-import {LoginService} from '@services/login.service';
+import {LoginService} from '@services/auth/login.service';
 import {CurrentUser} from '@/Models/auth/auth.model';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {UtilsService} from '@services/utils/utils.service';
@@ -51,7 +51,7 @@ export class UsuariosRegistroComponent implements OnInit, AfterViewInit {
         this.registro = this.data.registro;
         this.loading = true;
         this.registro = this.data.registro;
-        this.user = this.loginService.getTokenDecoded();
+        // // this.user = this.loginService.getTokenDecoded();
         this.createForm();
     }
 

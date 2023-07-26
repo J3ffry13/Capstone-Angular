@@ -1,7 +1,7 @@
 import { OnInit } from '@angular/core';
 import { CurrentUser } from '@/Models/auth/auth.model';
 import {Component} from '@angular/core';
-import { LoginService } from '@services/login.service';
+import { LoginService } from '@services/auth/login.service';
 import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
@@ -19,21 +19,21 @@ export class DashboardComponent  implements OnInit{
     ) {}
 
     ngOnInit() {
-        this.user = this.loginService.getTokenDecoded();
-        this.loginService
-            .getPermissions({user: this.user.idUsuario})
-            .subscribe(
-                (result) => {
-                    let data = [];
-                    result.forEach((x) => {
-                        data.push(x.accesoName);
-                    });
-                    this.permissionsService.loadPermissions(data);
-                },
-                (error) => {
-                    console.log(error);
-                }
-            );
+        // // this.user = this.loginService.getTokenDecoded();
+        // this.loginService
+        //     .getPermissions({user: this.user.idUsuario})
+        //     .subscribe(
+        //         (result) => {
+        //             let data = [];
+        //             result.forEach((x) => {
+        //                 data.push(x.accesoName);
+        //             });
+        //             this.permissionsService.loadPermissions(data);
+        //         },
+        //         (error) => {
+        //             console.log(error);
+        //         }
+        //     );
     }
     
 }

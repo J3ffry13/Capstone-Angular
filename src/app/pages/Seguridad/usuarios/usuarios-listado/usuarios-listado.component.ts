@@ -4,7 +4,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
 import {CurrentUser} from '@/Models/auth/auth.model';
-import {LoginService} from '@services/login.service';
+import {LoginService} from '@services/auth/login.service';
 import {ConfirmActionComponent} from '@components/crud/confirm-action/confirm-action.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {SnackbarComponent} from '@components/crud/snackbar/snackbar.component';
@@ -40,7 +40,7 @@ export class UsuariosListadoComponent implements OnInit {
 
     ngOnInit() {
         this.loading = true;
-        this.user = this.loginService.getTokenDecoded();
+        // // this.user = this.loginService.getTokenDecoded();
         this.renderColumns();
         this.cargarListaDatos();
     }
@@ -91,7 +91,7 @@ export class UsuariosListadoComponent implements OnInit {
         registroDatos.clean();
         registroDatos.idUsuario = registro.idUsuario;
         registroDatos.accion = 3;
-        registroDatos.login = this.user.usuarioNombre;
+        registroDatos.login = this.user.email;
 
         const dialogRef = this.dialog.open(ConfirmActionComponent, {
             data: {

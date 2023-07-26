@@ -2,8 +2,9 @@
     (click)="handleMainMenuAction()"
     class="nav-link"
     [ngClass]="{active: isMainActive || isOneOfChildrenActive}"
-    *ngxPermissionsOnly="menuItem.permission"
+   
 >
+ <!-- *ngxPermissionsOnly="menuItem.permission" -->
     <i class="nav-icon {{ menuItem.iconClasses }}"></i>
     <p>{{ menuItem.name }}
         <i
